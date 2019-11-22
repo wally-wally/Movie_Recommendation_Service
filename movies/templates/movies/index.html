@@ -1,0 +1,22 @@
+{% extends 'movies/base.html' %}
+
+{% load bootstrap4 %}
+
+{% block content %}
+<h1 class="text-center" style="font-family: 'Do Hyeon';">영화 목록</h1>
+<hr>
+<div class="row">
+  {% for movie in movies %}
+  <div class="col-sm-6 col-md-4 mb-5">
+    <div class="card">
+      <a href="{% url 'movies:detail' movie.pk %}"><img src="{{movie.poster_url}}" class="card-img-top"
+          alt="{{movie.name}}"></a>
+      <div class="card-body">
+        <h5 class="card-title">{{movie.name}}</h5>
+        <hr>
+        <b>{{ movie.like_users.all|length }}</b>명의 좋아요!
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  {% endblock  %}

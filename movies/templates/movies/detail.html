@@ -1,0 +1,76 @@
+{% extends 'movies/base.html' %}
+
+{% load bootstrap4 %}
+
+{% block content %}
+  <font color="#3E64E2"><h1 class="text-center" style="font-family: 'Do Hyeon';">영화 정보 조회</h1></font>
+  <br>
+  <table border="2px solid black">
+    <thead>
+      <tr height="30px">
+        <th class="text-center" width="100px">분류</th>
+        <th class="text-center">내용</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="text-align: center;">title</td>
+        <td>{{ movie.name }}</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">director</td>
+        <td>{{ movie.director }}</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">genre</td>
+        <td>{% for genre in movie.genre_id.all %}
+            {{ genre.name }}
+            {% endfor %}
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">poster_url</td>
+        <td><a href="{{ movie.poster_url }}" target="_blank">{{ movie.poster_url }}</a></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">description</td>
+        <td>{{ movie.description }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <a href="{% url 'movies:like' movie.pk %}">
+    {% if user in movie.like_users.all %}
+      <button class="btn btn-warning">좋아요 취소...</button>
+    {% else %}
+      <button class="btn btn-danger">좋아요!</button>
+    {% endif %}
+  </a>
+  <hr>
+  <p><b>{{ comments|length }}개의 댓글</b></p>
+  {% for comment in comments %}
+    <div>
+      댓글 : {{ comment.content }} - {{ comment.score }}점
+      {% if request.user == comment.user %}
+        <form action="{% url  'movies:comments_delete' movie.pk comment.pk %}" method="POST" style="display: inline;">
+          {% csrf_token %}
+          <input type="submit" value="DELETE">
+        </form>
+      {% endif %}
+    </div>
+  {% empty %}
+    <p><b>댓글이 없어요...</b></p>
+  {% endfor %}
+  <hr>
+  {% if user.is_authenticated %}
+    <form action="{% url 'movies:comments_create' movie.pk %}" method="POST">
+      {% csrf_token %}
+      {{ comment_form }}
+      <input type="submit" value="submit">
+    </form>
+  {% else %}
+    <a href="{% url 'accounts:login' %}">[댓글을 작성하려면 로그인하세요]</a>
+  {% endif %}
+  <hr>
+  <a href="{% url 'movies:index' %}" class="btn btn-success">BACK</a>
+
+{% endblock  %}
