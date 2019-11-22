@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404, HttpResponse
 from django.views.decorators.http import require_POST
 from .models import Genre, Movie, Comment
-from .forms import ReviewForm
+from .forms import CommentForm
 
 # Create your views here.
 def index(request):
@@ -17,18 +17,18 @@ def detail(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
     comments = movie.comment_set.all()
     comment_form = CommentForm()
-    context = {'movie': movie, 'comment_form': review_form, 'comments': comments,}
+    context = {'movie': movie, 'comment_form': comment_form, 'comments': comments,}
     return render(request, 'movies/detail.html', context)
 
 @require_POST
-def reviews_create(request, movie_pk):
+def comments_create(request, movie_pk):
     if request.user.is_authenticated:
-        review_form = ReviewForm(request.POST)
-        if review_form.is_valid():
-            review = review_form.save(commit=False)
-            review.movie_id = movie_pk
-            review.user = request.user
-            review.save()
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.movie_id = movie_pk
+            comment.user = request.user
+            comment.save()
             return redirect('movies:detail', movie_pk)
         else:
             return redirect('movies:index')
@@ -36,11 +36,11 @@ def reviews_create(request, movie_pk):
 
 
 @require_POST
-def reviews_delete(request, movie_pk, review_pk):
+def comments_delete(request, movie_pk, comment_pk):
     if request.user.is_authenticated:
-        review = get_object_or_404(Review, pk=review_pk)
-        if request.user == review.user:
-            review.delete()
+        comment = get_object_or_404(Comment, pk=comment_pk)
+        if request.user == comment.user:
+            comment.delete()
         return redirect ('movies:detail', movie_pk)
     return HttpResponse('No movie information', status=404)
 
