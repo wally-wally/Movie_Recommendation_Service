@@ -11,13 +11,13 @@
     <hr>
     <h3 style="font-family: 'Jua';">내가 작성한 댓글과 평점</h3>
     <ul class="list-group">
-      {% for review in auth_user.review_set.all %}
+      {% for comment in auth_user.comment_set.all %}
         <li class="list-group-item d-flex justify-content-between align-items-center">
           <div>
-          {{review.movie.title}} ||
-          {{ review.content }}
+          {{ comment.movie.name}} ||
+          {{ comment.content }}
           </div>
-          <span class="badge badge-primary badge-pill">{{ review.score }}점</span>
+          <span class="badge badge-primary badge-pill">{{ comment.score }}점</span>
         </li>
       {% endfor %}
     </ul>
@@ -27,7 +27,7 @@
     <ul class="list-group">
       {% for movie in auth_user.like_movies.all %}
         <li class="list-group-item mt-16">
-          <a href="{% url 'movies:detail' movie.pk %}">{{ movie.title }}</a>
+          <a href="{% url 'movies:detail' movie.pk %}">{{ movie.name }}</a>
         </li>
       {% endfor %}
     </ul>
