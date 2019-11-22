@@ -22,7 +22,7 @@
 
 ### 영화 크레딧(감독이름 얻기)
 
-- https://api.themoviedb.org/3/movie/{movie_id}/credits?api_key=f587667124773c74ca25857cae26ff82&language=ko-KR
+- https://api.themoviedb.org/3/movie/{movie_id}/credits?api_key={key}&language=ko-KR
 
 ### 영화 포스터
 
