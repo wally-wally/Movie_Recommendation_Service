@@ -5,21 +5,34 @@
 {% block content %}
   <font color="#3E64E2"><h1 class="text-center" style="font-family: 'Do Hyeon';">영화 정보 조회</h1></font>
   <br>
-  <div class="card" style="width: 18rem;">
-    <img src="https://image.tmdb.org/t/p/original{{ movie.poster_url }}" alt="{{ movie.name }}의 포스터 이미지" width="200px">
-    <div class="card-body">
-      <h5 class="card-title">{{ movie.name }}</h5>
-      <p class="card-text">
-      <ul>
-        <li>director : {{ movie.director }}</li>
-        <li>genre : {% for genre in movie.genre_id.all %}
-          {{ genre.name }}
-        {% endfor %}</li>
-        <li>description : {{ movie.description }}</li>
-      </ul>
-      </p>
+
+  <div class="card mb-3">
+    <div class="row no-gutters">
+      <div class="col-md-4">
+        <img src="https://image.tmdb.org/t/p/original{{ movie.poster_url }}" class="card-img" alt="{{ movie.name }}의 포스터 이미지">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title"><b>{{ movie.name }}</b></h5>
+          <p class="card-text">
+          <ul>
+            <li>director : {{ movie.director }}</li><br>
+            <li>genre : {% for genre in movie.genre_id.all %}
+              {{ genre.name }}
+            {% endfor %}</li><br>
+            <li>rating : {{ movie.audience_rating }}</li>
+            {% if movie.audience != 0 %}
+              <li>audience : {{ movie.audience }}</li>
+            {% endif %}<br>
+            <li>description : {{ movie.description }}</li>
+          </ul>
+          </p>
+          <p class="card-text"><small class="text-muted">cf)관객수가 0인 경우는 audience 항목 표시를 안하게 설정함</small></p>
+        </div>
+      </div>
     </div>
   </div>
+
   <br>
   <a href="{% url 'movies:like' movie.pk %}">
     {% if user in movie.like_users.all %}
