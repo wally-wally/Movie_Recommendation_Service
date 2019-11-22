@@ -2,16 +2,13 @@ import requests
 import json
 from decouple import config
 from pprint import pprint
-
 TMDB_KEY = config('TMDB_KEY')
-
 movies = []
 for page_num in range(1, 4):
     # movie list
     URL = f'https://api.themoviedb.org/3/movie/popular?api_key={TMDB_KEY}&language=ko-kr&page={page_num}'
     res = requests.get(URL).json()
     movie_list = res.get('results')
-
     for movie in movie_list:
         # pprint(movie)
         movie_obj = {}
@@ -30,7 +27,6 @@ for page_num in range(1, 4):
                 break
         else:
             direc_tmp = ''
-
         movie_obj['fields'] = {
             'name': movie.get('title'),
             'genre_id': movie.get('genre_ids'),
@@ -41,7 +37,5 @@ for page_num in range(1, 4):
             'like_users': []
         }
         movies.append(movie_obj)
-
 with open('movies.json', 'w', encoding='utf-8') as make_files:
     json.dump(movies, make_files, ensure_ascii=False, indent="\t")
-
