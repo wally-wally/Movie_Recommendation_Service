@@ -1,14 +1,18 @@
 {% extends 'movies/base.html' %}
 {% load bootstrap4 %}
+{% load socialaccount %}
 {% block content %}
 {% if request.resolver_match.url_name == 'signup' %}
   <h1>SIGNUP</h1>  
 {% else %}
   <h1>LOGIN</h1>
 {% endif %}
-  <form action="" method="POST">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    <input type="submit" value="제출">
-  </form>
+<form action="" method="POST">
+  {% csrf_token %}
+  {% bootstrap_form form %}
+  <input type="submit" value="제출">
+</form>
+{% if request.resolver_match.url_name == 'login' %}
+  <a class="btn btn-warning" href="{% provider_login_url "kakao" %}">KAKAO</a>
+{% endif %}
 {% endblock %}
