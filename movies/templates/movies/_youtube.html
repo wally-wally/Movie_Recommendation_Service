@@ -1,13 +1,23 @@
 {% load static %}
-<span class="badge badge-primary" id="movie-name">{{ movie.name }}</span> 관련 영상
-<button class="btn btn-info"id="youtube-button">영상 보기</button>
+<p>
+  <a class="btn btn-primary" data-toggle="collapse" href="#movie-videos" role="button" aria-expanded="false" aria-controls="collapseExample">
+    {{ movie.name }} 관련 영상
+  </a>
+</p>
+<div class="collapse" id="movie-videos">
+  <div class="card card-body" id="movieList">
+  </div>
+</div>
+
+
+<!-- <span class="badge badge-primary" id="movie-name">{{ movie.name }}</span> 관련 영상 -->
+<!-- <button class="btn btn-info"id="youtube-button">영상 보기</button> -->
 <hr>
-<div class="movie-videos"></div>
 
 <script type="text/javascript" src="{% static 'movies/js/config.js' %}"></script>
 <script>
   const movieName = document.querySelector('#movie-name')
-  const youtubeButton = document.querySelector('#youtube-button')
+  // const youtubeButton = document.querySelector('#youtube-button')
   const selectVideo = document.querySelector('.video-thumbnail')
   const API_URL = 'https://www.googleapis.com/youtube/v3/search'
   const API_KEY = config.YOUTUBE_API_KEY
@@ -32,7 +42,7 @@
         videoThumbnailTag.src = videos[i].snippet.thumbnails.high.url
         videoThumbnailTag.setAttribute('data-toggle', 'modal')
         videoThumbnailTag.setAttribute('data-target', `#movieNm-${i}`)
-        document.querySelector('.movie-videos').append(divThumbnailTag)
+        document.querySelector('#movieList').append(videoThumbnailTag)
 
         // 2. 선택한 youtube 영상 modal로 pop-mode 적용
         const selectVideoId = videos[i].id.videoId
@@ -59,13 +69,15 @@
           </div>
         </div>
         `
+        document.getElementById('#movieList').append(divThumbnailTag)
         // 3. 영상 제목 추가
         const videoDescriptionTag = document.createElement('div')
         videoDescriptionTag.class = "media-body"
         videoDescriptionTag.innerText = videos[i].snippet.title
-        document.querySelector('.movie-videos').append(videoDescriptionTag)
+        document.querySelector('#movieList').append(videoDescriptionTag)
 
         divThumbnailTag.append(videoThumbnailTag)
+
 
       }
     })
@@ -73,8 +85,9 @@
       console.log(err)
     })
   }
+  youtubeList()
 
-  youtubeButton.addEventListener('click', function() {
-    youtubeList()
-  })
+  //youtubeButton.addEventListener('click', function() {
+  //  youtubeList()
+  //})
 </script>

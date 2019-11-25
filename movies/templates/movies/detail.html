@@ -23,10 +23,10 @@
             <li>genre : {% for genre in movie.genre_id.all %}
               {{ genre.name }}
               {% endfor %}</li><br>
-            <li>rating : {{ movie.audience_rating }}</li>
+            <li>rating : {{ movie.audience_rating }}</li><br>
             {% if movie.audience != 0 %}
             <li>audience : {{ movie.audience }}</li>
-            {% endif %}<br>
+            {% endif %}
             <li>description : {{ movie.description }}</li>
           </ul>
         </p>
@@ -61,6 +61,7 @@
   {% for comment in comments %}
   <div class="card">
     <div class="card-body">
+      <p>아이디 : <a href="{% url 'accounts:detail' comment.user.pk %}">{{ comment.user }}</a></p>
       {% if comment.score == 10 %}
       <h5 class="card-title">평점 : 🌕🌕🌕🌕🌕</h5>
       {% elif comment.score == 9 %}
@@ -93,21 +94,8 @@
   </div>
   {% empty %}
   <p><b>댓글이 없어요...</b></p>
-  <!---->
   {% endfor %}
-  <hr>
-  {% if user.is_authenticated %}
-    <form action="{% url 'movies:comments_create' movie.pk %}" method="POST">
-      {% csrf_token %}
-      {{ comment_form }}
-      <input type="submit" value="submit">
-    </form>
-  {% else %}
-    <a href="{% url 'accounts:login' %}">[댓글을 작성하려면 로그인하세요]</a>
-  {% endif %}
-  <hr>
-  <a href="{% url 'movies:index' %}" class="btn btn-success">BACK</a>
-  <hr>
-  {% include 'movies/_youtube.html' %}
   <br>
+</div>
+{% include 'movies/_youtube.html' %}
 {% endblock  %}
