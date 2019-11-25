@@ -1,4 +1,5 @@
 {% load bootstrap4 %}
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -8,10 +9,11 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   {% bootstrap_css %}
   <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Gothic+A1|Jua|Noto+Sans+KR&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <title>Document</title>
 </head>
 <body>
-{% include 'movies/_nav.html' %}
+  {% include 'movies/_nav.html' %}
   <div class="container">
     {% block content %}
     {% endblock  %}
