@@ -1,43 +1,51 @@
 {% extends 'movies/base.html' %}
 {% block content %}
-  <h1 class="text-center" style="font-family: 'Do Hyeon';">{{ auth_user }}님의 정보 상세보기</h1>
-  {% if auth_user != request.user %}
-    {% if request.user in auth_user.followers.all %}
-      <a class="btn btn-info btn-lg" href="{% url 'accounts:follow' auth_user.pk %}" role="button">Unfollow</a>
-    {% else %}
-      <a class="btn btn-primary btn-lg" href="{% url 'accounts:follow' auth_user.pk %}" role="button">Follow</a>
-    {% endif %}
-  {% endif %}
-    <hr>
-    <h3 style="font-family: 'Jua';">내가 작성한 댓글과 평점</h3>
-    <ul class="list-group">
-      {% for comment in auth_user.comment_set.all %}
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <div>
-          {{ comment.movie.name}} ||
-          {{ comment.content }}
-          </div>
-          <span class="badge badge-primary badge-pill">{{ comment.score }}점</span>
-        </li>
-      {% endfor %}
-    </ul>
+<h1 class="text-center" style="font-family: 'Do Hyeon';">'{{ auth_user }}'님의 정보 상세보기</h1>
+<br>
 
-    <hr>
-    <h3 style="font-family: 'Jua';">내가 '좋아요'한 영화 정보</h3>
-    <ul class="list-group">
-      {% for movie in auth_user.like_movies.all %}
-        <li class="list-group-item mt-16">
-          <a href="{% url 'movies:detail' movie.pk %}">{{ movie.name }}</a>
-        </li>
-      {% endfor %}
-    </ul>
-
-    <hr>
-    <h3 style="font-family: 'Jua';">팔로워 정보</h3>
-    <div class="alert alert-info text-center" role="alert" style="font-size: 24px;">
-      {% with followings=auth_user.followings.all followers=auth_user.followers.all %}
-        팔로잉 : <b>{{ followings|length }}</b> / 팔로워 : <b>{{ followers|length }}</b>
-      {% endwith %}
+<hr>
+<h3 style="font-family: 'Jua';">작성한 댓글과 평점</h3>
+<ul class="list-group">
+  {% for comment in auth_user.comment_set.all %}
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    <div>
+      {{ comment.movie.name}} ||
+      {{ comment.content }}
     </div>
+    <span class="badge badge-primary badge-pill">{{ comment.score }}점</span>
+  </li>
+  {% endfor %}
+</ul>
+<br>
+
+<hr>
+<h3 style="font-family: 'Jua';">'좋아요!'한 영화 정보</h3>
+<ul class="list-group">
+  {% for movie in auth_user.like_movies.all %}
+  <li class="list-group-item mt-16">
+    <a href="{% url 'movies:detail' movie.pk %}">{{ movie.name }}</a>
+  </li>
+  {% endfor %}
+</ul>
+<br>
+
+<hr>
+<h3 style="font-family: 'Jua';">팔로워 정보</h3>
+
+{% if auth_user != request.user %}
+{% if request.user in auth_user.followers.all %}
+<a class="btn btn-info btn-lg" href="{% url 'accounts:follow' auth_user.pk %}" role="button">Unfollow</a>
+{% else %}
+<a class="btn btn-primary btn-lg" href="{% url 'accounts:follow' auth_user.pk %}" role="button">Follow</a>
+{% endif %}
+{% endif %}
+<br>
+<br>
+
+<div class="alert alert-info text-center" role="alert" style="font-size: 24px;">
+  {% with followings=auth_user.followings.all followers=auth_user.followers.all %}
+  팔로잉 : <b>{{ followings|length }}</b> / 팔로워 : <b>{{ followers|length }}</b>
+  {% endwith %}
+</div>
 
 {% endblock  %}
