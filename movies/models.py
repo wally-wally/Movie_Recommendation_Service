@@ -43,3 +43,12 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ('-pk',)
+
+
+class Actor(models.Model):
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    character = models.CharField(max_length=50)    
+    profile_photo = models.TextField()
+    def __str__(self):
+        return self.name

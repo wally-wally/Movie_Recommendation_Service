@@ -1,0 +1,17 @@
+[
+	{
+		"model": "movies.movie",
+		"pk": 645541,
+		"fields": {
+			"name": "존과 맥의 요상한 우주여행",
+			"genre_id": [
+				878
+			],
+			"user_rating": 5.3,
+			"poster_url": "/4I0CQfnMy6sRR7QhgqsXR16TmIs.jpg",
+			"description": "우주비행사 존과 반려견 맥이 우주비행 중 불시착한 행성을 탈출하기 위해 고군분투하는 과정을 그린 영화",
+			"director": "Joe Bland",
+			"like_users": []
+		}
+	}
+]
