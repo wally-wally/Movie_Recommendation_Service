@@ -4,11 +4,12 @@ from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CustomUserCreationForm
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth import get_user_model
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
-
+from django.contrib.auth import update_session_auth_hash
+from IPython import embed
 
 # Create your views here.
 def index(request):
@@ -62,3 +63,22 @@ def follow(request, user_pk):
         else:
             person.followers.add(user)
     return redirect('accounts:detail', user_pk)
+
+@login_required
+def private(request, user_pk):
+    return render(request, 'accounts/private.html')
+
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+       form = PasswordChangeForm(request.user, request.POST)
+       if form.is_valid():
+           form.save()
+           update_session_auth_hash(request, form.user)
+           return redirect('accounts:private', request.user.id)
+    else:
+        form = PasswordChangeForm(request.user)
+    context = {'form': form,}
+
+    return render(request, 'accounts/authform.html', context)
