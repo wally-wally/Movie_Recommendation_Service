@@ -62,6 +62,9 @@ def follow(request, user_pk):
             person.followers.remove(user)
         else:
             person.followers.add(user)
+    # print(person.followers.all())
+    # print(len(person.followers.all()))
+    # print(person.followers.all()[0])
     return redirect('accounts:detail', user_pk)
 
 @login_required
