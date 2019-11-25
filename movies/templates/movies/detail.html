@@ -3,70 +3,101 @@
 {% load bootstrap4 %}
 
 {% block content %}
-  <font color="#3E64E2"><h1 class="text-center" style="font-family: 'Do Hyeon';">영화 정보 조회</h1></font>
-  <br>
+<font color="#3E64E2">
+  <h1 class="text-center" style="font-family: 'Do Hyeon';">영화 정보 조회</h1>
+</font>
+<br>
 
-  <div class="card mb-3">
-    <div class="row no-gutters">
-      <div class="col-md-4">
-        <img src="https://image.tmdb.org/t/p/original{{ movie.poster_url }}" class="card-img" alt="{{ movie.name }}의 포스터 이미지">
-      </div>
-      <div class="col-md-8">
-        <div class="card-body">
-          <h5 class="card-title"><b>{{ movie.name }}</b></h5>
-          <p class="card-text">
+<div class="card mb-3">
+  <div class="row no-gutters">
+    <div class="col-md-4">
+      <img src="https://image.tmdb.org/t/p/original{{ movie.poster_url }}" class="card-img"
+        alt="{{ movie.name }}의 포스터 이미지">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title"><b>{{ movie.name }}</b></h5>
+        <p class="card-text">
           <ul>
             <li>director : {{ movie.director }}</li><br>
             <li>genre : {% for genre in movie.genre_id.all %}
               {{ genre.name }}
-            {% endfor %}</li><br>
+              {% endfor %}</li><br>
             <li>rating : {{ movie.audience_rating }}</li>
             {% if movie.audience != 0 %}
-              <li>audience : {{ movie.audience }}</li>
+            <li>audience : {{ movie.audience }}</li>
             {% endif %}<br>
             <li>description : {{ movie.description }}</li>
           </ul>
-          </p>
-          <p class="card-text"><small class="text-muted">cf)관객수가 0인 경우는 audience 항목 표시를 안하게 설정함</small></p>
-        </div>
+        </p>
+        <p class="card-text"><small class="text-muted">cf)관객수가 0인 경우는 audience 항목 표시를 안하게 설정함</small></p>
       </div>
     </div>
   </div>
+</div>
+<a href="{% url 'movies:like' movie.pk %}">
+  {% if user in movie.like_users.all %}
+  <button class="btn btn-warning">좋아요 취소...</button>
+  {% else %}
+  <button class="btn btn-warning">좋아요!</button>
+  {% endif %}
+</a>
+<br>
+<br>
+{% if user.is_authenticated %}
+<form action="{% url 'movies:comments_create' movie.pk %}" method="POST">
+  {% csrf_token %}
+  {{ comment_form }}
+  <input class="btn btn-success btn-sm" type="submit" value="댓글 작성">
+</form>
+{% else %}
+<a href="{% url 'accounts:login' %}">[댓글을 작성하려면 로그인하세요]</a>
+{% endif %}
 
-  <br>
-  <a href="{% url 'movies:like' movie.pk %}">
-    {% if user in movie.like_users.all %}
-      <button class="btn btn-warning">좋아요 취소...</button>
-    {% else %}
-      <button class="btn btn-danger">좋아요!</button>
-    {% endif %}
-  </a>
-  <hr>
-  <p><b>{{ comments|length }}개의 댓글</b></p>
+<hr>
+<p><b>{{ comments|length }}개의 댓글</b></p>
+<!---->
+<div class="card-columns">
   {% for comment in comments %}
-    <div>
-      댓글 : {{ comment.content }} - {{ comment.score }}점
+  <div class="card">
+    <div class="card-body">
+      {% if comment.score == 10 %}
+      <h5 class="card-title">평점 : 🌕🌕🌕🌕🌕</h5>
+      {% elif comment.score == 9 %}
+      <h5 class="card-title">평점 : 🌕🌕🌕🌕🌗</h5>
+      {% elif comment.score == 8 %}
+      <h5 class="card-title">평점 : 🌕🌕🌕🌕🌑</h5>
+      {% elif comment.score == 7 %}
+      <h5 class="card-title">평점 : 🌕🌕🌕🌗🌑</h5>
+      {% elif comment.score == 6 %}
+      <h5 class="card-title">평점 : 🌕🌕🌕🌑🌑</h5>
+      {% elif comment.score == 5 %}
+      <h5 class="card-title">평점 : 🌕🌕🌗🌑🌑</h5>
+      {% elif comment.score == 4 %}
+      <h5 class="card-title">평점 : 🌕🌕🌑🌑🌑</h5>
+      {% elif comment.score == 3 %}
+      <h5 class="card-title">평점 : 🌕🌗🌑🌑🌑</h5>
+      {% elif comment.score == 2 %}
+      <h5 class="card-title">평점 : 🌕🌑🌑🌑🌑</h5>
+      {% elif comment.score == 1 %}
+      <h5 class="card-title">평점 : 🌗🌑🌑🌑🌑</h5>
+      {% endif %}
+      <p class="card-text">댓글 : {{ comment.content }}</p>
       {% if request.user == comment.user %}
-        <form action="{% url  'movies:comments_delete' movie.pk comment.pk %}" method="POST" style="display: inline;">
-          {% csrf_token %}
-          <input type="submit" value="DELETE">
-        </form>
+      <form action="{% url  'movies:comments_delete' movie.pk comment.pk %}" method="POST" style="display: inline;">
+        {% csrf_token %}
+        <input class="btn btn-danger btn-sm" type="submit" value="DELETE">
+      </form>
       {% endif %}
     </div>
+  </div>
   {% empty %}
-    <p><b>댓글이 없어요...</b></p>
+  <p><b>댓글이 없어요...</b></p>
+  <!---->
   {% endfor %}
-  <hr>
-  {% if user.is_authenticated %}
-    <form action="{% url 'movies:comments_create' movie.pk %}" method="POST">
-      {% csrf_token %}
-      {{ comment_form }}
-      <input type="submit" value="submit">
-    </form>
-  {% else %}
-    <a href="{% url 'accounts:login' %}">[댓글을 작성하려면 로그인하세요]</a>
-  {% endif %}
-  <hr>
-  <a href="{% url 'movies:index' %}" class="btn btn-success">BACK</a>
-
+</div>
+<hr>
+<a href="{% url 'movies:index' %}" class="btn btn-success">BACK</a>
+<br>
+<br>
 {% endblock  %}
