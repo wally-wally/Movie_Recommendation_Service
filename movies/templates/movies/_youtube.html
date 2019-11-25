@@ -1,0 +1,80 @@
+{% load static %}
+<span class="badge badge-primary" id="movie-name">{{ movie.name }}</span> 관련 영상
+<button class="btn btn-info"id="youtube-button">영상 보기</button>
+<hr>
+<div class="movie-videos"></div>
+
+<script type="text/javascript" src="{% static 'movies/js/config.js' %}"></script>
+<script>
+  const movieName = document.querySelector('#movie-name')
+  const youtubeButton = document.querySelector('#youtube-button')
+  const selectVideo = document.querySelector('.video-thumbnail')
+  const API_URL = 'https://www.googleapis.com/youtube/v3/search'
+  const API_KEY = config.YOUTUBE_API_KEY
+  const youtubeList = function () {
+    axios.get(API_URL, {
+      params: {
+        key: API_KEY,
+        type: 'video',
+        part: 'snippet',
+        q: movieName.innerText
+      }
+    })
+    .then(response => {
+      const videos = response.data.items
+      for (let i = 0; i < videos.length - 1; i++) { // 유튜브 검색 결과 네 개만 출력
+
+        // 1. 썸네일 추가
+        const divThumbnailTag = document.createElement('div')
+        divThumbnailTag.setAttribute('class', 'video-thumbnail')
+        const videoThumbnailTag = document.createElement('img')
+        videoThumbnailTag.id = videos[i].etag
+        videoThumbnailTag.src = videos[i].snippet.thumbnails.high.url
+        videoThumbnailTag.setAttribute('data-toggle', 'modal')
+        videoThumbnailTag.setAttribute('data-target', `#movieNm-${i}`)
+        document.querySelector('.movie-videos').append(divThumbnailTag)
+
+        // 2. 선택한 youtube 영상 modal로 pop-mode 적용
+        const selectVideoId = videos[i].id.videoId
+        divThumbnailTag.innerHTML = `
+        <div class="modal fade bd-example-modal-lg" id="movieNm-${i}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                ${videos[i].snippet.title}
+              </div>
+              <div class="modal-title">
+                <div class="embed-responsive embed-responsive-16by9">
+                  <iframe src="http://www.youtube.com/embed/${selectVideoId}" allowfullscreen="allowfullscreen" frameborder="0" class="embed-responsive-item"></iframe>
+                </div>
+              </div>
+              <hr>
+              <div class="modal-body">
+                ${videos[i].snippet.description}
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        `
+        // 3. 영상 제목 추가
+        const videoDescriptionTag = document.createElement('div')
+        videoDescriptionTag.class = "media-body"
+        videoDescriptionTag.innerText = videos[i].snippet.title
+        document.querySelector('.movie-videos').append(videoDescriptionTag)
+
+        divThumbnailTag.append(videoThumbnailTag)
+
+      }
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+
+  youtubeButton.addEventListener('click', function() {
+    youtubeList()
+  })
+</script>
