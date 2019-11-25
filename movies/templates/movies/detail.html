@@ -43,6 +43,18 @@
   {% endif %}
 </a>
 <br>
+
+{% comment %} 주요 출연진 {% endcomment %}
+<h3>주요 출연진</h3>
+{% for actor in actors %}
+  <img src="{{ actor.profile_photo }}" alt="" class="img-thumbnail" style="width: 100px;">
+  <br>
+  {{ actor.name }}
+  <br>
+  {{ actor.character }}
+  <hr>
+{% endfor %}
+
 <br>
 {% if user.is_authenticated %}
 <form action="{% url 'movies:comments_create' movie.pk %}" method="POST">

@@ -5,6 +5,7 @@ from django.http import Http404, HttpResponse
 from django.views.decorators.http import require_POST
 from .models import Genre, Movie, Comment
 from .forms import CommentForm
+from IPython import embed
 
 # Create your views here.
 def index(request):
@@ -17,7 +18,8 @@ def detail(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
     comments = movie.comment_set.all()
     comment_form = CommentForm()
-    context = {'movie': movie, 'comment_form': comment_form, 'comments': comments,}
+    actors = movie.actor_set.all()
+    context = {'movie': movie, 'comment_form': comment_form, 'comments': comments, 'actors': actors,}
     return render(request, 'movies/detail.html', context)
 
 @require_POST
