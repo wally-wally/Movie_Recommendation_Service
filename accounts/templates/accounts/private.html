@@ -1,0 +1,9 @@
+{% extends 'movies/base.html' %}
+{% block content %}
+
+<a href="#">사진 변경</a>
+<br>
+<a href="#">닉네임 변경</a>
+<br>
+<a href="{% url 'accounts:change_password' %}">비밀번호 변경</a>
+{% endblock  %}
