@@ -1,8 +1,6 @@
-from django.shortcuts import render
-
 # Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import CustomUserCreationForm
+from .forms import CustomUserChangeForm, CustomUserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth import get_user_model
@@ -11,6 +9,7 @@ from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import update_session_auth_hash
 from IPython import embed
 from django.http import JsonResponse, HttpResponseBadRequest
+from django.views.decorators.http import require_POST
 
 # Create your views here.
 def index(request):
@@ -88,4 +87,22 @@ def change_password(request):
         form = PasswordChangeForm(request.user)
     context = {'form': form,}
 
-    return render(request, 'accounts/authform.html', context)
+    return render(request, 'accounts/authform2.html', context)
+
+@require_POST
+def delete(request):
+    request.user.delete()
+    return redirect('movies:index')
+
+
+@login_required
+def update(request):
+    if request.method == 'POST':
+        form = CustomUserChangeForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('movies:index')
+    else:
+        form = CustomUserChangeForm(instance=request.user)
+    context = {'form': form,}
+    return render(request, 'accounts/authform2.html', context)
