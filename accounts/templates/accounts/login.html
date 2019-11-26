@@ -1,18 +1,21 @@
-{% extends 'movies/base.html' %}
-{% load bootstrap4 %}
-{% load socialaccount %}
-{% block content2 %}
-{% if request.resolver_match.url_name == 'login' %}
-  <h1>LOGIN</h1>
-{% endif %}
-<div >
-<form action="" method="POST">
-  {% csrf_token %}
-  {% bootstrap_form form %}
-  <input type="submit" value="제출">
-</form>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="{% static 'accounts/css/login.css' %}">
+  <title>Document</title>
+</head>
+<body>
+  <div class="login">
+	<h1>Login</h1>
+    <form action="{% url 'accounts:login' %}" method="POST">
+    {% csrf_token %}
+    {{ form }}
+        <button type="submit" class="btn btn-primary btn-block btn-large">Let me in.</button>
+    </form>
 </div>
-{% if request.resolver_match.url_name == 'login' %}
-  <a class="btn btn-warning" href="{% provider_login_url "kakao" %}">KAKAO</a>
-{% endif %}
-{% endblock %}
+</body>
+</html>
