@@ -8,45 +8,15 @@
   <h1 class="text-center heading" style="font-family: 'Do Hyeon';">당신을 위한 영화를 추천해드립니다.</h1>
 </header>
 
-<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item recommend01 active" data-interval="100000">
-      <div class="ml-2 recom01">클라우스<br>
-      <p class="recom01-detail">활기 넘치는 젊은 우체부와 세상을 등지고 장난감을 만드는 목수. 전혀 어울리지 않는 둘의 우정이 차디찬 세상에 온기를 불어넣는다. 《슈퍼배드》 작가의 산타 탄생 이야기.</p>
-
-      </div>
-    </div>
-    <div class="carousel-item" data-interval="100000">
-      <img src="..." class="d-block w-100" alt="...">
-    </div>
-    <div class="carousel-item" data-interval="100000">
-      <img src="..." class="d-block w-100" alt="...">
-    </div>
-  </div>
-  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
-</div>
-
-
 <hr>
-<div class="row">
+<h1 class="title">Hover over the cards</h1>
+
+<div id="app" class="cards col-md-3">
   {% for movie in movies %}
-  <div class="col-sm-6 col-md-4 mb-5">
-    <div class="card">
-      <a href="{% url 'movies:detail' movie.pk %}"><img src="https://image.tmdb.org/t/p/original{{movie.poster_url}}"
-          class="card-img-top" alt="{{movie.name}}"></a>
-      <div class="card-body">
-        <h5 class="card-title">{{movie.name}}</h5>
-        <hr>
-        <b>{{ movie.like_users.all|length }}</b>명의 좋아요!
-      </div>
-    </div>
-  </div>
+  <card data-image="https://image.tmdb.org/t/p/original{{movie.poster_url}}">
+    <h1 slot="header">{{ movie.name }}</h1>
+    <p slot="content">Like count : {{ movie.like_users.all|length }}</p>
+  </card>
   {% endfor %}
+</div>
 {% endblock  %}
