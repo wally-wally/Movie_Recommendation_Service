@@ -9,14 +9,32 @@
 </header>
 
 <hr>
-<h1 class="title">Hover over the cards</h1>
 
-<div id="app" class="cards col-md-3">
+<div class="row">
   {% for movie in movies %}
+  <div class="example-2 movie-card">
+    <div class="wrapper">
+      <div class="header">
+        <div class="date">
+          <span class="day">{{ movie.release_date }}</span>
+        </div>
+      </div>
+    <img src="https://image.tmdb.org/t/p/original{{movie.poster_url}}" style="width: 100%; height: auto;">
+      <div class="data">
+        <div class="content">
+          <span class="author">{{ movie.director }}</span>
+          <h2 class="title">{{ movie.name }}</h2>
+          <p class="text">Like count : {{ movie.like_users.all|length }}</p>
+          <a href="{% url 'movies:detail' movie.pk %}">Go to Detail</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock  %}
+
   <card data-image="https://image.tmdb.org/t/p/original{{movie.poster_url}}">
     <h1 slot="header">{{ movie.name }}</h1>
     <p slot="content">Like count : {{ movie.like_users.all|length }}</p>
   </card>
-  {% endfor %}
-</div>
-{% endblock  %}
