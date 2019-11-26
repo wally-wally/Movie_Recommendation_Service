@@ -1,0 +1,41 @@
+header {
+  height: 300px;
+  width: 100%;
+  background-image: url("../images/movie_background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-color: grey;
+  background-blend-mode: screen;
+}
+
+header:hover {
+  background-blend-mode: normal;
+}
+
+.heading {
+  line-height: 300px;
+}
+
+.recommend01 {
+  height: 800px;
+  width: 100%;
+  background-image: url("../images/klaus_01.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.recom01 {
+  font-size: 6rem;
+  font-family: 'Jua', sans-serif;
+  color: white;
+  text-shadow: 0 0 10px black;
+  line-height: 500px;
+}
+
+.recom01-detail {
+  font-size: 2rem;
+  font-family: 'Noto Sans KR', sans-serif;
+  color: white;
+  text-shadow: 0 0 10px black;
+  line-height: 800px;
+}
