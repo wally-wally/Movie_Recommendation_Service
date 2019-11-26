@@ -10,6 +10,7 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import update_session_auth_hash
 from IPython import embed
+from django.http import JsonResponse, HttpResponseBadRequest
 
 # Create your views here.
 def index(request):
@@ -55,17 +56,20 @@ def detail(request, user_pk):
 
 @login_required
 def follow(request, user_pk):
-    person = get_object_or_404(get_user_model(), pk=user_pk)
-    user = request.user
-    if person != user:
-        if person.followers.filter(pk=user.pk).exists():
-            person.followers.remove(user)
-        else:
-            person.followers.add(user)
-    # print(person.followers.all())
-    # print(len(person.followers.all()))
-    # print(person.followers.all()[0])
-    return redirect('accounts:detail', user_pk)
+    if request.is_ajax():
+        person = get_object_or_404(get_user_model(), pk=user_pk)
+        user = request.user
+        if person != user:
+            if person.followers.filter(pk=user.pk).exists():
+                person.followers.remove(user)
+                followed = False
+            else:
+                person.followers.add(user)
+                followed = True
+            context = {'followed': followed, 'count': person.followers.count(),}
+        return JsonResponse(context)
+    else:
+        return HttpResponseBadRequest()
 
 @login_required
 def private(request, user_pk):
