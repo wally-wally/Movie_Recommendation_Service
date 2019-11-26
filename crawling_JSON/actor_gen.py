@@ -4,7 +4,7 @@ from decouple import config
 from pprint import pprint
 TMDB_KEY = config('TMDB_KEY')
 
-with open('movies_add.json', 'rt', encoding='UTF8') as f:
+with open('movies2.json', 'rt', encoding='UTF8') as f:
     jData = json.load(f)
 
 actors = []
@@ -35,6 +35,6 @@ for movie_obj in jData:
         except:
             break
 
-with open('actors.json', 'w', encoding='utf-8') as make_files:
+with open('actors2.json', 'w', encoding='utf-8') as make_files:
     json.dump(actors, make_files, ensure_ascii=False, indent="\t")
 
