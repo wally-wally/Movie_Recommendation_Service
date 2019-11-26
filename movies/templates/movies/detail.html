@@ -1,6 +1,7 @@
 {% extends 'movies/base.html' %}
 
 {% load bootstrap4 %}
+{% load static %}
 
 {% block content %}
 <font color="#3E64E2">
@@ -46,14 +47,21 @@
 
 {% comment %} 주요 출연진 {% endcomment %}
 <h3>주요 출연진</h3>
-{% for actor in actors %}
-  <img src="{{ actor.profile_photo }}" alt="" class="img-thumbnail" style="width: 100px;">
-  <br>
-  {{ actor.name }}
-  <br>
-  {{ actor.character }}
-  <hr>
-{% endfor %}
+<div class="inline">
+  {% for actor in actors %}
+    {% if actor.profile_photo|length == 2 %}
+      <img src="{% static 'images/no_image.png' %}" alt="staff's image" class="img-thumbnail" style="width: 100px;">
+    {% else %}
+      <img src="{{ actor.profile_photo }}" alt="no image" class="img-thumbnail" style="width: 100px;">  
+    {% endif %}
+    <br>
+    {{ actor.name }}
+    <br>
+    {{ actor.character }}
+    <hr>
+  {% endfor %}
+</div>
+
 
 <br>
 {% if user.is_authenticated %}
