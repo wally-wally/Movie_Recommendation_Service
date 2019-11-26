@@ -33,6 +33,7 @@ header:hover {
 }
 
 .recom01-detail {
+  z-index: 100;
   font-size: 2rem;
   font-family: 'Noto Sans KR', sans-serif;
   color: white;
