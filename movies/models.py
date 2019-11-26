@@ -13,15 +13,13 @@ class Genre(models.Model):
 class Movie(models.Model):
     name = models.CharField(max_length=150)
     director = models.CharField(max_length=150)
-    user_rating = models.FloatField(
-        validators = [MinValueValidator(0.0), MaxValueValidator(10.0)]
-    )
-    poster_url = models.CharField(max_length=1000)
+    poster_url = models.CharField(max_length=1000, null=True, blank=True)
     description = models.TextField()
     audience_rating = models.CharField(max_length=100)
     audience = models.IntegerField()
     genre_id = models.ManyToManyField(Genre, related_name='genre_movies', blank=True)
     like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_movies', blank=True)
+    release_date = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name

@@ -1,0 +1,18 @@
+{% extends 'movies/base.html' %}
+{% load bootstrap4 %}
+{% load socialaccount %}
+{% block content2 %}
+{% if request.resolver_match.url_name == 'signup' %}
+<h1 class="text-center">SIGNUP</h1>
+{% endif %}
+<div>
+  <form action="" method="POST">
+    {% csrf_token %}
+    {% bootstrap_form form layout='inline' %}
+    <input type="submit" value="제출">
+  </form>
+</div>
+{% if request.resolver_match.url_name == 'login' %}
+<a class="btn btn-warning" href="{% provider_login_url "kakao" %}">KAKAO</a>
+{% endif %}
+{% endblock %}

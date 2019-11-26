@@ -922,25 +922,6 @@
 	},
 	{
 		"model": "movies.movie",
-		"pk": 551807,
-		"fields": {
-			"name": "Untitled Fox/Marvel Film II",
-			"genre_id": [
-				28,
-				12,
-				878
-			],
-			"poster_url": null,
-			"description": "",
-			"director": "",
-			"like_users": [],
-			"release_date": null,
-			"audience_rating": "-",
-			"audience": 0
-		}
-	},
-	{
-		"model": "movies.movie",
 		"pk": 301528,
 		"fields": {
 			"name": "토이 스토리 4",

@@ -2,16 +2,16 @@
 {% load bootstrap4 %}
 {% load socialaccount %}
 {% block content2 %}
-{% if request.resolver_match.url_name == 'signup' %}
-  <h1>SIGNUP</h1>  
-{% elif request.resolver_match.url_name == 'login' %}
+{% if request.resolver_match.url_name == 'login' %}
   <h1>LOGIN</h1>
 {% endif %}
+<div >
 <form action="" method="POST">
   {% csrf_token %}
   {% bootstrap_form form %}
   <input type="submit" value="제출">
 </form>
+</div>
 {% if request.resolver_match.url_name == 'login' %}
   <a class="btn btn-warning" href="{% provider_login_url "kakao" %}">KAKAO</a>
 {% endif %}
