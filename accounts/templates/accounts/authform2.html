@@ -1,11 +1,11 @@
 {% extends 'movies/base.html' %}
 {% load bootstrap4 %}
 {% load socialaccount %}
-{% block content2 %}
-{% if request.resolver_match.url_name == 'signup' %}
-  <h1>SIGNUP</h1>  
-{% elif request.resolver_match.url_name == 'login' %}
-  <h1>LOGIN</h1>
+{% block content %}
+{% if request.resolver_match.url_name == 'change_password' %}
+  <h1>CHANGE PASSWORD</h1>
+{% elif request.resolver_match.url_name == 'update' %}
+  <h1>UPDATE</h1>
 {% endif %}
 <form action="" method="POST">
   {% csrf_token %}
