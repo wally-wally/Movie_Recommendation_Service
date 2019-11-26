@@ -6,7 +6,7 @@ from django.views.decorators.http import require_POST
 from .models import Genre, Movie, Comment
 from .forms import CommentForm
 from IPython import embed
-
+from django.http import JsonResponse, HttpResponseBadRequest
 # Create your views here.
 def index(request):
     movies = Movie.objects.all()
@@ -49,9 +49,15 @@ def comments_delete(request, movie_pk, comment_pk):
 
 @login_required
 def like(request, movie_pk):
-    movie = get_object_or_404(Movie, pk=movie_pk)
-    if movie.like_users.filter(pk=request.user.pk).exists():
-        movie.like_users.remove(request.user)
+    if request.is_ajax():
+        movie = get_object_or_404(Movie, pk=movie_pk)
+        if movie.like_users.filter(pk=request.user.pk).exists():
+            movie.like_users.remove(request.user)
+            liked = False
+        else:
+            movie.like_users.add(request.user)
+            liked = True
+        context = {'liked': liked, 'count': movie.like_users.count(),}
+        return JsonResponse(context)
     else:
-        movie.like_users.add(request.user)
-    return redirect('movies:detail', movie_pk)
+        return HttpResponseBadRequest()
