@@ -1,0 +1,86 @@
+{% load bootstrap4 %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% bootstrap_css %}
+  <!-- <link rel="stylesheet" href={% static 'css/main_nologin.css' %} /> -->
+  <link rel="stylesheet" href={% static 'css/test.css' %} />
+  <link rel="stylesheet" href={% static 'js/test.js' %} />
+  {% block css %}
+  {% endblock  %}
+  <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Gothic+A1|Jua|Noto+Sans+KR&display=swap"
+    rel="stylesheet">
+  <script src="https://kit.fontawesome.com/17820a52a0.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="cards">
+    <h3>KKK-Triple-K</h3>
+    <h2>Welcome to 'Movie Recommendation Service'</h2>
+    <div class="card card__one">
+      <div class="card__bg"></div>
+      <a href="{% url 'accounts:login' %}"><img class="card__img" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/62105/3dr_mono.png" /></a>
+      <div class="card__text">
+        <p class="card__title">LOGIN</p>
+      </div>
+    </div>
+    <div class="card card__two">
+      <div class="card__bg"></div>
+      <a href="{% url 'accounts:signup' %}"><img class="card__img" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/62105/3dr_chihiro.png" /></a>
+      <div class="card__text">
+        <p class="card__title">SIGN UP</p>
+      </div>
+    </div>
+    <div class="card card__three">
+      <div class="card__bg"></div>
+      <a data-toggle="modal" data-target="#mainModal"><img class="card__img" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/62105/3dr_howlcastle.png" /></a>
+      <div class="card__text">
+        <p class="card__title">DETAIL</p>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="mainModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Movie Recommendation Service Detail</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Detail bula bula
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+  {% comment %} <div class="bg"></div>
+  <div class="page-title">
+    <h1 class="neon">Welcome to Movie Recommendation Service</h1>
+  </div>
+  <div class="d-flex justify-content-center">
+    <a class="btn btn-success" href="{# url 'accounts:login' #}">LOGIN</a>
+    <a class="btn btn-info" href="{# url 'accounts:signup' #}">SIGNUP</a>
+  </div> {% endcomment %}
+  {% bootstrap_javascript jquery='full' %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.1/vue.min.js"></script>
+</body>
+
+</html>
