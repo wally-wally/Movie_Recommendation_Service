@@ -31,12 +31,11 @@
 
 <hr>
 <h3 style="font-family: 'Jua';">팔로워 정보</h3>
-
 {% if auth_user != request.user %}
 {% if request.user in auth_user.followers.all %}
-<a class="btn btn-info btn-lg" href="{% url 'accounts:follow' auth_user.pk %}" role="button">Unfollow</a>
+<button class="btn btn-info btn-lg follow-button" data-id="{{ auth_user.id }}">Unfollow</button>
 {% else %}
-<a class="btn btn-primary btn-lg" href="{% url 'accounts:follow' auth_user.pk %}" role="button">Follow</a>
+<button class="btn btn-primary btn-lg follow-button" data-id="{{ auth_user.id }}">Follow</button>
 {% endif %}
 {% endif %}
 <br>
@@ -44,8 +43,35 @@
 
 <div class="alert alert-info text-center" role="alert" style="font-size: 24px;">
   {% with followings=auth_user.followings.all followers=auth_user.followers.all %}
-  팔로잉 : <b>{{ followings|length }}</b> / 팔로워 : <b>{{ followers|length }}</b>
+  팔로잉 : <b>{{ followings|length }}</b> / 팔로워 : <b id="follower-count-{{ auth_user.pk }}">{{ followers|length }}</b>
   {% endwith %}
 </div>
+
+
+<script>
+  const followbuttons = document.querySelectorAll('.follow-button')
+  followbuttons.forEach(button => {
+    button.addEventListener('click', function(event) {
+      const authId = event.target.dataset.id
+      axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
+      axios.defaults.xsrfCookieName = 'csrftoken'
+      axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+      axios.post(`/accounts/${authId}/follow/`)
+      .then(response => {
+        document.querySelector(`#follower-count-${authId}`).innerText = response.data.count
+        if (response.data.followed) {
+          document.querySelector('.follow-button').innerText = 'Unfollow'
+        } else {
+          document.querySelector('.follow-button').innerText = 'Follow'
+        }
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    })
+  })
+
+</script>
+
 
 {% endblock  %}
