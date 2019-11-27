@@ -33,9 +33,3 @@
   {% endfor %}
 </div>
 {% endblock  %}
-
-  <card data-image="https://image.tmdb.org/t/p/original{{movie.poster_url}}">
-    <h1 slot="header">{{ movie.name }}</h1>
-    <p slot="content">Like count : {{ movie.like_users.all|length }}</p>
-  </card>
-  {% comment %} adw {% endcomment %}

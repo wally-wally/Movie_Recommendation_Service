@@ -13,12 +13,23 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = '!4^95wv7e_d!srjwt$@!=!sab6rju%pqvr942i65)bxi_c*f9!'
 
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
+
+# if DEBUG:
+#     import mimetypes
+#     mimetypes.add_type("application/javascript", ".js", True)
+
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -26,9 +37,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'movies.apps.MoviesConfig',
-    'sass_processor',
-    'drf_yasg',
-    'rest_framework',
     'bootstrap4',
     'django.contrib.sites',
     'allauth',
@@ -130,14 +138,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'triplek', 'assets'),
-]
 
 AUTH_USER_MODEL = 'accounts.User'
 
 LOGIN_REDIRECT_URL = 'movies:index'
-
 
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
