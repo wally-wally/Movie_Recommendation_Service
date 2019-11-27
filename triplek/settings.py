@@ -142,11 +142,3 @@ STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'accounts.User'
 
 LOGIN_REDIRECT_URL = 'movies:index'
-
-STATICFILES_FINDERS = [
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'sass_processor.finders.CssFinder',
-]
-
-# Django Sass
-SASS_PROCESSOR_ROOT = os.path.join(BASE_DIR,'static')

@@ -44,9 +44,10 @@
   {% else %}
   <button class="btn btn-warning like-button" data-id="{{ movie.pk }}">좋아요!</button>
   {% endif %}
-<span id="like-count-{{ movie.pk }}">{{ movie.like_users.all|length }}</span> 명이 좋아함. &nbsp; &nbsp; {% include 'movies/_youtube.html' %}
+<span id="like-count-{{ movie.pk }}" style="color: white;">{{ movie.like_users.all|length }} 명이 좋아함.</span>
 <br>
-
+{% include 'movies/_youtube.html' %}
+<br>
 <h3 class="text-center" style="color: white; text-shadow: 0 0 12px black;">주요 출연진</h3>
 
 {% include 'movies/_actors.html' %}
