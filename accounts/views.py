@@ -72,7 +72,9 @@ def follow(request, user_pk):
 
 @login_required
 def private(request, user_pk):
-    return render(request, 'accounts/private.html')
+    user_profile = get_object_or_404(get_user_model(), pk=user_pk)
+    context = {'user_profile': user_profile}
+    return render(request, 'accounts/private.html', context)
 
 
 @login_required
