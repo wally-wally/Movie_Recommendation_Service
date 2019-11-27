@@ -4,14 +4,14 @@
 <h1 class="text-center" style="font-family: 'Do Hyeon';">유저 목록</h1>
 <ul class="list-group">
   {% for user in users %}
+  {% if user.username != 'admin' %}
   <li class="list-group-item d-flex justify-content-between align-items-center">
-  <!--<li class="list-group-item">-->
     <div>
       <a href="{% url 'accounts:detail' user.pk %}" style="font-size: 20px;">{{ user.username }}</a>
       <span class="badge badge-primary badge-pill">팔로워 : {{ user.followers.all|length }}</div>
-      <!--{{ user.followers.all }}-->
     </p>
   </li>
+  {% endif %}
   {% endfor %}
 </ul>
 {% endblock %}
