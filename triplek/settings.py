@@ -37,6 +37,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'movies.apps.MoviesConfig',
+    'sass_processor',
     'drf_yasg',
     'rest_framework',
     'bootstrap4',
@@ -147,3 +148,12 @@ STATICFILES_DIRS = [
 AUTH_USER_MODEL = 'accounts.User'
 
 LOGIN_REDIRECT_URL = 'movies:index'
+
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'sass_processor.finders.CssFinder',
+]
+
+# Django Sass
+SASS_PROCESSOR_ROOT = os.path.join(BASE_DIR,'static')
