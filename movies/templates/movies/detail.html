@@ -8,12 +8,11 @@
   <h1 class="text-center" style="font-family: 'Do Hyeon'; color: #B7E8FF; text-shadow: 3px 3px 8px white;">영화 정보 조회</h1>
 </font>
 <br>
-
 <br>
 
 <div class="card mb-3">
   <div class="card-header" style="background-color:#E2DAE7;">
-    <h2 style="font-family: 'Jua'; color: #5744A5;"><b>{{ movie.name }}</b></h2>
+    <h2 class="movie-title" style="font-family: 'Jua'; color: #5744A5;"><b>{{ movie.name }}</b></h2>
   </div>
   <div class="row no-gutters" style="max-width: 10000px; margin-left: 0px; margin-right: 0px; margin-top: 0px;">
     <div class="col-md-4">
@@ -60,28 +59,28 @@
 
 {% include 'movies/_youtube.html' %}
 
-<br>
 <h2 class="text-center" style="font-family: 'Do Hyeon'; color: #B7E8FF; text-shadow: 0 0 12px black;">주요 출연진</h2>
-
 {% include 'movies/_actors.html' %}
 
 <br>
+<br>
+
 <div class="jumbotron">
   <h1 class="display-4" style="font-family: 'Jua';"><b>{{ comments|length }}개의 댓글</b>!</h1>
   {% if user.is_authenticated %}
-  <form action="{% url 'movies:comments_create' movie.pk %}" method="POST">
+  <form action="{% url 'movies:comments_create' movie.pk %}" method="POST" style="font-family: 'Gothic A1', sans-serif;">
     {% csrf_token %}
     {{ comment_form }}
     <input class="btn btn-success btn-sm comment-create-button" type="submit" value="댓글 작성">
   </form>
   {% else %}
-  <a style="font-family: 'Do Hyeon';" href="{% url 'accounts:login' %}">[댓글을 작성하려면 로그인하세요]</a>
+  <a style="font-family: 'Poor Story';" href="{% url 'accounts:login' %}">[댓글을 작성하려면 로그인하세요]</a>
   {% endif %}
   <hr class="my-4">
   <div class="card-columns">
     {% for comment in comments %}
     <div class="card">
-      <div class="card-body">
+      <div class="card-body" style="font-family: 'Gothic A1', sans-serif;">
         <p>아이디 : <a href="{% url 'accounts:detail' comment.user.pk %}">{{ comment.user }}</a></p>
         {% if comment.score == 10 %}
         <h5 class="card-title">평점 : 🌕🌕🌕🌕🌕</h5>
@@ -106,7 +105,7 @@
         {% endif %}
         <p class="card-text">댓글 : {{ comment.content }}</p>
         {% if request.user == comment.user %}
-        <form action="{% url  'movies:comments_delete' movie.pk comment.pk %}" method="POST" style="display: inline;">
+        <form action="{% url  'movies:comments_delete' movie.pk comment.pk %}" method="POST" style="display: inline; font-family: 'Gothic A1', sans-serif;">
           {% csrf_token %}
           <input class="btn btn-danger btn-sm comment-delete-button" type="submit" value="DELETE">
         </form>
@@ -121,11 +120,6 @@
 
 
 </div>
-
-
-
-<hr>
-<!---->
 
 <script>
   const likebuttons = document.querySelectorAll('.like-button')
