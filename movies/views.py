@@ -10,7 +10,26 @@ from django.http import JsonResponse, HttpResponseBadRequest
 # Create your views here.
 def index(request):
     movies = Movie.objects.all()
-    context = {'movies': movies,}
+    if request.user.is_authenticated:
+        recommend_movie = request.user.like_movies.all().last()
+        genreinfo = recommend_movie.genre_id.first()
+        recommend_info = []
+        check_var = 0
+        for movie in movies:
+            genre_list = [genre for genre in movie.genre_id.all()]
+            if genreinfo in genre_list:
+                temp_dict = dict()
+                temp_dict['pk'] = movie.pk
+                temp_dict['poster_url'] = movie.poster_url
+                temp_dict['name'] = movie.name
+                temp_dict['director'] = movie.director
+                recommend_info.append(temp_dict)
+                check_var += 1
+            if check_var == 3:
+                break
+        context = {'movies': movies, 'recommend_movie': recommend_movie, 'genreinfo': genreinfo, 'recommend_info': recommend_info,}
+    else:
+        context = {'movies': movies,}
     return render(request, 'movies/index.html', context)
 
 
