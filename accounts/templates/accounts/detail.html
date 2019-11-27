@@ -1,13 +1,13 @@
 {% extends 'movies/base.html' %}
 {% block content %}
-<h1 class="text-center" style="font-family: 'Do Hyeon';">'{{ auth_user }}'님의 정보 상세보기</h1>
+<h1 class="text-center" style="font-family: 'Do Hyeon'; color: #B7E8FF; text-shadow: 0 0 12px black;">'{{ auth_user }}'님의 정보 상세보기</h1>
 <br>
 
 <hr>
-<h3 style="font-family: 'Jua';">작성한 댓글과 평점</h3>
+<h3 style="font-family: 'Jua'; color: #B7E8FF; text-shadow: 0 0 12px black;">작성한 댓글과 평점</h3>
 <ul class="list-group">
   {% for comment in auth_user.comment_set.all %}
-  <li class="list-group-item d-flex justify-content-between align-items-center">
+  <li class="list-group-item d-flex justify-content-between align-items-center" style="font-family: 'Gothic A1', sans-serif;">
     <div>
       {{ comment.movie.name}} ||
       {{ comment.content }}
@@ -19,10 +19,10 @@
 <br>
 
 <hr>
-<h3 style="font-family: 'Jua';">'좋아요!'한 영화 정보</h3>
+<h3 style="font-family: 'Jua'; color: #B7E8FF; text-shadow: 0 0 12px black;">'좋아요!'한 영화 정보</h3>
 <ul class="list-group">
   {% for movie in auth_user.like_movies.all %}
-  <li class="list-group-item mt-16">
+  <li class="list-group-item mt-16" style="font-family: 'Gothic A1', sans-serif;">
     <a href="{% url 'movies:detail' movie.pk %}">{{ movie.name }}</a>
   </li>
   {% endfor %}
@@ -30,18 +30,18 @@
 <br>
 
 <hr>
-<h3 style="font-family: 'Jua';">팔로워 정보</h3>
+<h3 style="font-family: 'Jua'; color: #B7E8FF; text-shadow: 0 0 12px black;">팔로워 정보</h3>
 {% if auth_user != request.user %}
-{% if request.user in auth_user.followers.all %}
-<button class="btn btn-info btn-lg follow-button" data-id="{{ auth_user.id }}">Unfollow</button>
-{% else %}
-<button class="btn btn-primary btn-lg follow-button" data-id="{{ auth_user.id }}">Follow</button>
-{% endif %}
+  {% if request.user in auth_user.followers.all %}
+    <button class="btn btn-info btn-lg follow-button" style="font-family: 'Gothic A1', sans-serif;" data-id="{{ auth_user.id }}">Unfollow</button>
+  {% else %}
+    <button class="btn btn-primary btn-lg follow-button" style="font-family: 'Gothic A1', sans-serif;" data-id="{{ auth_user.id }}">Follow</button>
+  {% endif %}
 {% endif %}
 <br>
 <br>
 
-<div class="alert alert-info text-center" role="alert" style="font-size: 24px;">
+<div class="alert alert-info text-center" role="alert" style="font-size: 30px; font-family: 'Jua', sans-serif;">
   {% with followings=auth_user.followings.all followers=auth_user.followers.all %}
   팔로잉 : <b>{{ followings|length }}</b> / 팔로워 : <b id="follower-count-{{ auth_user.pk }}">{{ followers|length }}</b>
   {% endwith %}

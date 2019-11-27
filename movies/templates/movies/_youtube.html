@@ -20,7 +20,7 @@
 <script type="text/javascript" src="{% static 'movies/js/config.js' %}"></script>
 <script>
 
-  const movieName = document.querySelector('.card-title')
+  const movieName = document.querySelector('.movie-title')
   // const youtubeButton = document.querySelector('#youtube-button')
   const selectVideo = document.querySelector('.video-thumbnail')
   const API_URL = 'https://www.googleapis.com/youtube/v3/search'
@@ -51,7 +51,8 @@
 
         // 1. 썸네일 추가
         const divThumbnailTag = document.createElement('div')
-        divThumbnailTag.setAttribute('class', 'video-thumbnail')
+        divThumbnailTag.setAttribute('class', 'video-thumbnail mb-5 card')
+        divThumbnailTag.setAttribute('style', 'width: 30rem;')
         const videoThumbnailTag = document.createElement('img')
         videoThumbnailTag.id = videos[i].etag
         videoThumbnailTag.src = videos[i].snippet.thumbnails.high.url
@@ -62,6 +63,7 @@
         // 2. 영상 제목 추가
         const videoDescriptionTag = document.createElement('div')
         videoDescriptionTag.class = "media-body"
+        videoDescriptionTag.setAttribute('style', "font-family: 'Gothic A1'; padding-top: 7px; padding-bottom: 7px;")
         videoDescriptionTag.innerText = videos[i].snippet.title
         divThumbnailTag.append(videoDescriptionTag)
 
@@ -71,7 +73,7 @@
 
         modalTag.innerHTML = `
         <div class="modal fade bd-example-modal-lg" id="movieNm-${i}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-lg">
+          <div class="modal-dialog modal-lg" style="font-family: 'Gothic A1', sans-serif;">
             <div class="modal-content">
               <div class="modal-header">
                 ${videos[i].snippet.title}

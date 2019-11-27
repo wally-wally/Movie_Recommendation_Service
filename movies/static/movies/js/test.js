@@ -1,4 +1,4 @@
-const cards = document.querySelector(".main-cards");
+const cards = document.querySelector(".cards");
 const images = document.querySelectorAll(".card__img");
 const backgrounds = document.querySelectorAll(".card__bg");
 const range = 40;
