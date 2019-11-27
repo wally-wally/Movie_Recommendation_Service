@@ -19,13 +19,13 @@ def index(request):
 
 def signup(request):
     if request.user.is_authenticated:
-        return redirect('movies:index')
+        return redirect('accounts:index')
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
-            return redirect('movies:index')
+            return redirect('accounts:index')
     else:
         form = CustomUserCreationForm()
     context = {'form': form,}

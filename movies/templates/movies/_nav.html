@@ -1,13 +1,12 @@
 {% load static %}
 
 {% block css %}
-  <link rel="stylesheet" href={% static 'css/searchbar.css' %} />
+  <link rel="stylesheet" href={% static 'movies/css/searchbar.css' %} />
 {% endblock  %}
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   {% if user.is_authenticated %}
     <span><img src="https://avatars1.githubusercontent.com/u/58015746?s=400&u=c7a1dc4b8bc29d898d430ee16e572ed34c0cb6d1&v=4" alt="team_logo" width="25px" height="25px"></span>
-    &nbsp; Hello, 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>

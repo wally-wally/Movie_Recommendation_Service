@@ -1,51 +1,40 @@
 {% load bootstrap4 %}
 {% load static %}
-{% load sass_tags %}
 
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta HTTP-EQUIV="Page-enter" content="BlendTrans(Duration=2.2)" charset="euc-kr">
-  <meta HTTP-EQUIV="Page-exit" content="BlendTrans(Duration=2.2)" charset="euc-kr">
   {% bootstrap_css %}
-  <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Gothic+A1|Jua|Noto+Sans+KR&display=swap"
-    rel="stylesheet">
+  <link rel="stylesheet" href={% static 'movies/css/multicarousel.css' %} />
+  <link rel="stylesheet" href={% static 'movies/css/movie_main.css' %} />
+  <link rel="stylesheet" href={% static 'movies/css/movie_detail.css' %} />
+  <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Gothic+A1|Jua|Noto+Sans+KR&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/17820a52a0.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <title>Movie Service</title>
-  <link rel="stylesheet" href="{% static 'movies/css/index_tem.css' %}">
-  <link href="{% sass_src 'movies/css/index_tem_sc.scss' %}" rel="stylesheet" type="text/css">
+  {% comment %} <link rel="stylesheet" href="{% static 'movies/css/index_tem.css' %}">
+  <link href="{% sass_src 'movies/css/index_tem_sc.scss' %}" rel="stylesheet" type="text/css"> {% endcomment %}
 </head>
-
 <body>
-
-  {% include 'movies/_nav.html' %}
-
   {% if user.is_authenticated %}
-  <div class="container-fluid">
-    {% block content %}
-    {% endblock  %}
-  </div>
-  {% else %}
-  <div class="container-fluid btn-wrapper">
-    <div class="d-flex justify-content-center">
-      <a class="btn btn-success" id="log_sign" href="{% url 'accounts:login' %}">LOGIN</a>
-      <a class="btn btn-info" id="log_sign" href="{% url 'accounts:signup' %}">SIGNUP</a>
+  {% include 'movies/_nav.html' %}
+    <div class="container">
+      {% block content %}
+      {% endblock  %}
     </div>
-    {% block content2 %}
-    {% endblock  %}
-  </div>
+  {% else %}
+    {% include 'movies/_main_nologin.html' %}
+      {% block content2 %}
+      {% endblock  %}
   {% endif %}
   {% bootstrap_javascript jquery='full' %}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.1/vue.min.js"></script>
-  <script src={% static 'js/movie_tem.js' %}></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
-    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous">
-  </script>
+  <script src={% static 'movies/js/movie_tem.js' %}></script>
+  <script src={% static 'movies/js/multicarousel.js' %}></script>
+  <script src={% static 'movies/js/test.js' %}></script>
 </body>
-
 </html>
