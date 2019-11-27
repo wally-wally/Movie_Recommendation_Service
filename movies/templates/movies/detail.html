@@ -5,298 +5,149 @@
 
 {% block content %}
 <font color="#3E64E2">
-  <h1 class="text-center" style="font-family: 'Do Hyeon';">영화 정보 조회</h1>
+  <h1 class="text-center" style="font-family: 'Do Hyeon'; color: #B7E8FF; text-shadow: 3px 3px 8px white;">영화 정보 조회</h1>
 </font>
 <br>
 
 <br>
 
 <div class="card mb-3">
-  <div class="row no-gutters">
+  <div class="card-header" style="background-color:#E2DAE7;">
+    <h2 style="font-family: 'Jua'; color: #5744A5;"><b>{{ movie.name }}</b></h2>
+  </div>
+  <div class="row no-gutters" style="max-width: 10000px; margin-left: 0px; margin-right: 0px; margin-top: 0px;">
     <div class="col-md-4">
-      <img src="https://image.tmdb.org/t/p/original{{ movie.poster_url }}" class="card-img"
-        alt="{{ movie.name }}의 포스터 이미지">
+      <img src="https://image.tmdb.org/t/p/original{{ movie.poster_url }}" class="card-img" alt="{{movie.name}}">
     </div>
-    <div class="col-md-8">
+    <div class="col-md-8" style="font-family: 'Gothic A1', sans-serif;">
       <div class="card-body">
-        <h5 class="card-title"><b>{{ movie.name }}</b></h5>
-        <p class="card-text">
-          <ul>
-            <li>director : {{ movie.director }}</li><br>
-            <li>genre : {% for genre in movie.genre_id.all %}
-              {{ genre.name }}
-              {% endfor %}</li><br>
-            <li>rating : {{ movie.audience_rating }}</li><br>
-            {% if movie.audience != 0 %}
-            <li>audience : {{ movie.audience }}</li>
-            {% endif %}
-            <li>description : {{ movie.description }}</li>
-            <li>opening date : {{ movie.release_date }}</li>
-          </ul>
+        <p>감독 이름 : <a href="https://www.google.com/search?q={{movie.director}}" target="_blank">{{movie.director}}</a>
         </p>
-        <p class="card-text"><small class="text-muted">cf)관객수가 0인 경우는 audience 항목 표시를 안하게 설정함</small></p>
+        <hr>
+        <p>장르 :
+          {% for genre in movie.genre_id.all %}
+          {{ genre.name }}
+          {% endfor %}
+        </p>
+        <hr>
+        {% if movie.audience != 0 %}
+        <p>관객수 : {{ movie.audience }}</p>
+        <hr>
+        {% endif %}
+        <p>관람등급 : {{ movie.audience_rating }}</p>
+        <hr>
+        <p>설명 : {{ movie.description }}</p>
+        <hr>
+        <p>개봉일 : {{ movie.release_date }}</p>
+        <hr>
+        <p class="card-text"><small class="text-muted">cf)관객수가 0인 경우는 '관객수' 항목 표시를 안하게 설정함</small></p>
+        <hr>
+        {% if user in movie.like_users.all %}
+        <button class="btn btn-warning btn-lg like-button" style="font-family: 'Nanum Pen Script', cursive;"
+          data-id="{{ movie.pk }}">좋아요 취소...</button>
+        {% else %}
+        <button class="btn btn-warning btn-lg like-button" style="font-family: 'Nanum Pen Script', cursive;"
+          data-id="{{ movie.pk }}">좋아요!</button>
+        {% endif %}
+        <span style="font-size: 1.5rem; font-family: 'Gothic A1', sans-serif;"> Like count :</span>
+        <span id="like-count-{{ movie.pk }}" style="font-size: 1.5rem; font-family: 'Gothic A1', sans-serif;">
+          {{ movie.like_users.all|length }}</span>
       </div>
     </div>
   </div>
 </div>
-  {% if user in movie.like_users.all %}
-  <button class="btn btn-warning like-button" data-id="{{ movie.pk }}">좋아요 취소...</button>
-  {% else %}
-  <button class="btn btn-warning like-button" data-id="{{ movie.pk }}">좋아요!</button>
-  {% endif %}
-<span id="like-count-{{ movie.pk }}" style="color: white;">{{ movie.like_users.all|length }} 명이 좋아함.</span>
 <br>
+
 {% include 'movies/_youtube.html' %}
+
 <br>
-<h3 class="text-center" style="color: white; text-shadow: 0 0 12px black;">주요 출연진</h3>
+<h2 class="text-center" style="font-family: 'Do Hyeon'; color: #B7E8FF; text-shadow: 0 0 12px black;">주요 출연진</h2>
 
 {% include 'movies/_actors.html' %}
 
-{% comment %} <!--Carousel Wrapper-->
-<div id="multi-item-example" class="carousel slide carousel-multi-item" data-ride="carousel">
-
-  <!--Controls-->
-  <div class="controls-top">
-    <a class="btn-floating" href="#multi-item-example" data-slide="prev"><i class="fa fa-chevron-left"></i></a>
-    <a class="btn-floating" href="#multi-item-example" data-slide="next"><i class="fa fa-chevron-right"></i></a>
+<br>
+<div class="jumbotron">
+  <h1 class="display-4" style="font-family: 'Jua';"><b>{{ comments|length }}개의 댓글</b>!</h1>
+  {% if user.is_authenticated %}
+  <form action="{% url 'movies:comments_create' movie.pk %}" method="POST">
+    {% csrf_token %}
+    {{ comment_form }}
+    <input class="btn btn-success btn-sm comment-create-button" type="submit" value="댓글 작성">
+  </form>
+  {% else %}
+  <a style="font-family: 'Do Hyeon';" href="{% url 'accounts:login' %}">[댓글을 작성하려면 로그인하세요]</a>
+  {% endif %}
+  <hr class="my-4">
+  <div class="card-columns">
+    {% for comment in comments %}
+    <div class="card">
+      <div class="card-body">
+        <p>아이디 : <a href="{% url 'accounts:detail' comment.user.pk %}">{{ comment.user }}</a></p>
+        {% if comment.score == 10 %}
+        <h5 class="card-title">평점 : 🌕🌕🌕🌕🌕</h5>
+        {% elif comment.score == 9 %}
+        <h5 class="card-title">평점 : 🌕🌕🌕🌕🌗</h5>
+        {% elif comment.score == 8 %}
+        <h5 class="card-title">평점 : 🌕🌕🌕🌕🌑</h5>
+        {% elif comment.score == 7 %}
+        <h5 class="card-title">평점 : 🌕🌕🌕🌗🌑</h5>
+        {% elif comment.score == 6 %}
+        <h5 class="card-title">평점 : 🌕🌕🌕🌑🌑</h5>
+        {% elif comment.score == 5 %}
+        <h5 class="card-title">평점 : 🌕🌕🌗🌑🌑</h5>
+        {% elif comment.score == 4 %}
+        <h5 class="card-title">평점 : 🌕🌕🌑🌑🌑</h5>
+        {% elif comment.score == 3 %}
+        <h5 class="card-title">평점 : 🌕🌗🌑🌑🌑</h5>
+        {% elif comment.score == 2 %}
+        <h5 class="card-title">평점 : 🌕🌑🌑🌑🌑</h5>
+        {% elif comment.score == 1 %}
+        <h5 class="card-title">평점 : 🌗🌑🌑🌑🌑</h5>
+        {% endif %}
+        <p class="card-text">댓글 : {{ comment.content }}</p>
+        {% if request.user == comment.user %}
+        <form action="{% url  'movies:comments_delete' movie.pk comment.pk %}" method="POST" style="display: inline;">
+          {% csrf_token %}
+          <input class="btn btn-danger btn-sm comment-delete-button" type="submit" value="DELETE">
+        </form>
+        {% endif %}
+      </div>
+    </div>
+    {% empty %}
+    <h3 style="font-family: 'Poor Story', cursive;"><b>댓글이 없어요...</b></h3>
+    {% endfor %}
+    <br>
   </div>
-  <!--/.Controls-->
 
-  <!--Indicators-->
-  <ol class="carousel-indicators">
-    <li data-target="#multi-item-example" data-slide-to="0" class="active"></li>
-    <li data-target="#multi-item-example" data-slide-to="1"></li>
-    <li data-target="#multi-item-example" data-slide-to="2"></li>
-  </ol>
-  <!--/.Indicators-->
-
-  <!--Slides-->
-  <div class="carousel-inner" role="listbox">
-
-    <!--First slide-->
-    <div class="carousel-item active">
-
-      <div class="row">
-        <div class="col-md-4">
-          <div class="card mb-2">
-            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg"
-              alt="Card image cap">
-            <div class="card-body">
-              <h4 class="card-title">Card title</h4>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                card's content.</p>
-              <a class="btn btn-primary">Button</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4 clearfix d-none d-md-block">
-          <div class="card mb-2">
-            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(18).jpg"
-              alt="Card image cap">
-            <div class="card-body">
-              <h4 class="card-title">Card title</h4>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                card's content.</p>
-              <a class="btn btn-primary">Button</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4 clearfix d-none d-md-block">
-          <div class="card mb-2">
-            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(35).jpg"
-              alt="Card image cap">
-            <div class="card-body">
-              <h4 class="card-title">Card title</h4>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                card's content.</p>
-              <a class="btn btn-primary">Button</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-    <!--/.First slide-->
-
-    <!--Second slide-->
-    <div class="carousel-item">
-
-      <div class="row">
-        <div class="col-md-4">
-          <div class="card mb-2">
-            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(60).jpg"
-              alt="Card image cap">
-            <div class="card-body">
-              <h4 class="card-title">Card title</h4>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                card's content.</p>
-              <a class="btn btn-primary">Button</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4 clearfix d-none d-md-block">
-          <div class="card mb-2">
-            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(47).jpg"
-              alt="Card image cap">
-            <div class="card-body">
-              <h4 class="card-title">Card title</h4>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                card's content.</p>
-              <a class="btn btn-primary">Button</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4 clearfix d-none d-md-block">
-          <div class="card mb-2">
-            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(48).jpg"
-              alt="Card image cap">
-            <div class="card-body">
-              <h4 class="card-title">Card title</h4>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                card's content.</p>
-              <a class="btn btn-primary">Button</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-    <!--/.Second slide-->
-
-    <!--Third slide-->
-    <div class="carousel-item">
-
-      <div class="row">
-        <div class="col-md-4">
-          <div class="card mb-2">
-            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/Food/4-col/img%20(53).jpg"
-              alt="Card image cap">
-            <div class="card-body">
-              <h4 class="card-title">Card title</h4>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                card's content.</p>
-              <a class="btn btn-primary">Button</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4 clearfix d-none d-md-block">
-          <div class="card mb-2">
-            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/Food/4-col/img%20(45).jpg"
-              alt="Card image cap">
-            <div class="card-body">
-              <h4 class="card-title">Card title</h4>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                card's content.</p>
-              <a class="btn btn-primary">Button</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4 clearfix d-none d-md-block">
-          <div class="card mb-2">
-            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/Food/4-col/img%20(51).jpg"
-              alt="Card image cap">
-            <div class="card-body">
-              <h4 class="card-title">Card title</h4>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                card's content.</p>
-              <a class="btn btn-primary">Button</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-    <!--/.Third slide-->
-
-  </div>
-  <!--/.Slides-->
 
 </div>
-<!--/.Carousel Wrapper--> {% endcomment %}
 
 
-<br>
-{% if user.is_authenticated %}
-<form action="{% url 'movies:comments_create' movie.pk %}" method="POST">
-  {% csrf_token %}
-  {{ comment_form }}
-  <input class="btn btn-success btn-sm comment-create-button" type="submit" value="댓글 작성">
-</form>
-{% else %}
-<a href="{% url 'accounts:login' %}">[댓글을 작성하려면 로그인하세요]</a>
-{% endif %}
 
 <hr>
-<p><b>{{ comments|length }}개의 댓글</b></p>
 <!---->
-<div class="card-columns">
-  {% for comment in comments %}
-  <div class="card">
-    <div class="card-body">
-      <p>아이디 : <a href="{% url 'accounts:detail' comment.user.pk %}">{{ comment.user }}</a></p>
-      {% if comment.score == 10 %}
-      <h5 class="card-title">평점 : 🌕🌕🌕🌕🌕</h5>
-      {% elif comment.score == 9 %}
-      <h5 class="card-title">평점 : 🌕🌕🌕🌕🌗</h5>
-      {% elif comment.score == 8 %}
-      <h5 class="card-title">평점 : 🌕🌕🌕🌕🌑</h5>
-      {% elif comment.score == 7 %}
-      <h5 class="card-title">평점 : 🌕🌕🌕🌗🌑</h5>
-      {% elif comment.score == 6 %}
-      <h5 class="card-title">평점 : 🌕🌕🌕🌑🌑</h5>
-      {% elif comment.score == 5 %}
-      <h5 class="card-title">평점 : 🌕🌕🌗🌑🌑</h5>
-      {% elif comment.score == 4 %}
-      <h5 class="card-title">평점 : 🌕🌕🌑🌑🌑</h5>
-      {% elif comment.score == 3 %}
-      <h5 class="card-title">평점 : 🌕🌗🌑🌑🌑</h5>
-      {% elif comment.score == 2 %}
-      <h5 class="card-title">평점 : 🌕🌑🌑🌑🌑</h5>
-      {% elif comment.score == 1 %}
-      <h5 class="card-title">평점 : 🌗🌑🌑🌑🌑</h5>
-      {% endif %}
-      <p class="card-text">댓글 : {{ comment.content }}</p>
-      {% if request.user == comment.user %}
-      <form action="{% url  'movies:comments_delete' movie.pk comment.pk %}" method="POST" style="display: inline;">
-        {% csrf_token %}
-        <input class="btn btn-danger btn-sm comment-delete-button" type="submit" value="DELETE">
-      </form>
-      {% endif %}
-    </div>
-  </div>
-  {% empty %}
-  <p><b>댓글이 없어요...</b></p>
-  {% endfor %}
-  <br>
-</div>
 
 <script>
   const likebuttons = document.querySelectorAll('.like-button')
   likebuttons.forEach(button => {
-    button.addEventListener('click', function(event) {
+    button.addEventListener('click', function (event) {
       const movieId = event.target.dataset.id
       axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
       axios.defaults.xsrfCookieName = 'csrftoken'
       axios.defaults.xsrfHeaderName = 'X-CSRFToken'
       axios.post(`/movies/${movieId}/like/`)
-      .then(response => {
-        document.querySelector(`#like-count-${movieId}`).innerText = response.data.count
-        if (response.data.liked) {
-          document.querySelector('.like-button').innerText = '좋아요 취소...'
-        } else {
-          document.querySelector('.like-button').innerText = '좋아요!'
-        }
-        
-      })
-      .catch(error => {
-        console.log(error)
-      })
+        .then(response => {
+          document.querySelector(`#like-count-${movieId}`).innerText = response.data.count
+          if (response.data.liked) {
+            document.querySelector('.like-button').innerText = '좋아요 취소...'
+          } else {
+            document.querySelector('.like-button').innerText = '좋아요!'
+          }
+
+        })
+        .catch(error => {
+          console.log(error)
+        })
     })
   })
 </script>

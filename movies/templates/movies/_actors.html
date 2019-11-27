@@ -7,7 +7,7 @@
         <div class="item">
           <div class="pad15">
             {% if actor.profile_photo|length == 2 %}
-              <img src="{% static 'images/no_image.png' %}" alt="staff's image" class="img-thumbnail" style="max-width:100%; height:auto;">
+              <img src="{% static 'images/no_image.png' %}" alt="{{ actor.name }}'s image" class="img-thumbnail" style="max-width:100%; height:auto;">
             {% else %}
               <img src="{{ actor.profile_photo }}" alt="no image" class="img-thumbnail" style="max-width:100%; height:auto;">  
             {% endif %}

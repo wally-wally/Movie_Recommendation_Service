@@ -1,0 +1,15 @@
+<h3 data-toggle="collapse" href="#collapseRecommend" aria-expanded="false" aria-controls="collapseRecommend" style="font-family: 'Jua'; color: white; text-shadow: 0 0 12px black;">{{user.username}}님에게 추천드리는 {{ genreinfo }}영화 TOP3!</h3>
+<div class="collapse" id="collapseRecommend">
+  <div class="card-group">
+    {% for info in recommend_info %}
+      <div class="card">
+        <img src="https://image.tmdb.org/t/p/original{{ info.poster_url }}" class="card-img-top" alt="{{ info.name }} 포스터" style="width: 100%; height: auto;">
+        <div class="card-body">
+          <h5 class="card-title">{{ info.name }}</h5>
+          <p class="card-text">Director : {{ info.director }}</p>
+          <a class="btn btn-outline-info" href="{% url 'movies:detail' info.pk %}">Go to Detail</a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>

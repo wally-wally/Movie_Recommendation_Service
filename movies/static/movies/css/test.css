@@ -36,7 +36,7 @@ h3 {
           transform: translateZ(25px);
 }
 
-.cards {
+.main-cards {
   background: #fff;
   border-radius: 15px;
   box-shadow: 0px 10px 20px 20px rgba(0, 0, 0, 0.17);
@@ -54,7 +54,7 @@ h3 {
   min-width: 595px;
 }
 
-.card {
+.main-card {
   border-radius: 15px;
   box-shadow: 5px 5px 20px -5px rgba(0, 0, 0, 0.6);
   display: inline-block;
@@ -73,7 +73,7 @@ h3 {
   width: 175px;
   text-align: center;
 }
-.card:not(:last-child) {
+.main-card:not(:last-child) {
   margin-right: 30px;
 }
 
