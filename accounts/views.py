@@ -1,8 +1,6 @@
-from django.shortcuts import render
-
 # Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import CustomUserCreationForm
+from .forms import CustomUserChangeForm, CustomUserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth import get_user_model
@@ -10,6 +8,8 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import update_session_auth_hash
 from IPython import embed
+from django.http import JsonResponse, HttpResponseBadRequest
+from django.views.decorators.http import require_POST
 
 # Create your views here.
 def index(request):
@@ -19,17 +19,17 @@ def index(request):
 
 def signup(request):
     if request.user.is_authenticated:
-        return redirect('accounts:index')
+        return redirect('movies:index')
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
-            return redirect('accounts:index')
+            return redirect('movies:index')
     else:
         form = CustomUserCreationForm()
     context = {'form': form,}
-    return render(request, 'accounts/authform.html', context)
+    return render(request, 'accounts/signup.html', context)
 
 def login(request):
     if request.user.is_authenticated:
@@ -42,7 +42,7 @@ def login(request):
     else:
         form = AuthenticationForm()
     context = {'form': form,}
-    return render(request, 'accounts/authform.html', context)
+    return render(request, 'accounts/login.html', context)
 
 def logout(request):
     auth_logout(request)
@@ -55,17 +55,20 @@ def detail(request, user_pk):
 
 @login_required
 def follow(request, user_pk):
-    person = get_object_or_404(get_user_model(), pk=user_pk)
-    user = request.user
-    if person != user:
-        if person.followers.filter(pk=user.pk).exists():
-            person.followers.remove(user)
-        else:
-            person.followers.add(user)
-    # print(person.followers.all())
-    # print(len(person.followers.all()))
-    # print(person.followers.all()[0])
-    return redirect('accounts:detail', user_pk)
+    if request.is_ajax():
+        person = get_object_or_404(get_user_model(), pk=user_pk)
+        user = request.user
+        if person != user:
+            if person.followers.filter(pk=user.pk).exists():
+                person.followers.remove(user)
+                followed = False
+            else:
+                person.followers.add(user)
+                followed = True
+            context = {'followed': followed, 'count': person.followers.count(),}
+        return JsonResponse(context)
+    else:
+        return HttpResponseBadRequest()
 
 @login_required
 def private(request, user_pk):
@@ -84,4 +87,26 @@ def change_password(request):
         form = PasswordChangeForm(request.user)
     context = {'form': form,}
 
-    return render(request, 'accounts/authform.html', context)
+    return render(request, 'accounts/authform2.html', context)
+
+@require_POST
+def delete(request):
+    request.user.delete()
+    return redirect('movies:index')
+
+
+@login_required
+def update(request):
+    if request.method == 'POST':
+        form = CustomUserChangeForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('movies:index')
+    else:
+        form = CustomUserChangeForm(instance=request.user)
+    context = {'form': form,}
+    return render(request, 'accounts/authform2.html', context)
+
+
+def test(request):
+    return render(request, 'accounts/test.html')

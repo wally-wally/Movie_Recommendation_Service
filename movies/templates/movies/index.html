@@ -1,22 +1,40 @@
 {% extends 'movies/base.html' %}
 
 {% load bootstrap4 %}
+{% load static %}
 
 {% block content %}
-<h1 class="text-center" style="font-family: 'Do Hyeon';">영화 목록</h1>
+<header class="index-img" id="index-img">
+  <h1 class="text-center heading" style="font-family: 'Do Hyeon';">당신을 위한 영화를 추천해드립니다.</h1>
+</header>
+
 <hr>
+
 <div class="row">
   {% for movie in movies %}
-  <div class="col-sm-6 col-md-4 mb-5">
-    <div class="card">
-      <a href="{% url 'movies:detail' movie.pk %}"><img src="https://image.tmdb.org/t/p/original{{movie.poster_url}}" class="card-img-top"
-          alt="{{movie.name}}"></a>
-      <div class="card-body">
-        <h5 class="card-title">{{movie.name}}</h5>
-        <hr>
-        <b>{{ movie.like_users.all|length }}</b>명의 좋아요!
+  <div class="example-2 movie-card">
+    <div class="wrapper">
+      <div class="header">
+        <div class="date">
+          <span class="day">{{ movie.release_date }}</span>
+        </div>
+      </div>
+    <img src="https://image.tmdb.org/t/p/original{{movie.poster_url}}" style="width: 100%; height: auto;">
+      <div class="data">
+        <div class="content">
+          <span class="author">{{ movie.director }}</span>
+          <h2 class="title">{{ movie.name }}</h2>
+          <p class="text">Like count : {{ movie.like_users.all|length }}</p>
+          <a href="{% url 'movies:detail' movie.pk %}">Go to Detail</a>
+        </div>
       </div>
     </div>
   </div>
   {% endfor %}
-  {% endblock  %}
+</div>
+{% endblock  %}
+
+  <card data-image="https://image.tmdb.org/t/p/original{{movie.poster_url}}">
+    <h1 slot="header">{{ movie.name }}</h1>
+    <p slot="content">Like count : {{ movie.like_users.all|length }}</p>
+  </card>

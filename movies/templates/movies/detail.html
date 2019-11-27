@@ -29,6 +29,7 @@
             <li>audience : {{ movie.audience }}</li>
             {% endif %}
             <li>description : {{ movie.description }}</li>
+            <li>opening date : {{ movie.release_date }}</li>
           </ul>
         </p>
         <p class="card-text"><small class="text-muted">cf)관객수가 0인 경우는 audience 항목 표시를 안하게 설정함</small></p>
@@ -67,7 +68,7 @@
 <form action="{% url 'movies:comments_create' movie.pk %}" method="POST">
   {% csrf_token %}
   {{ comment_form }}
-  <input class="btn btn-success btn-sm" type="submit" value="댓글 작성">
+  <input class="btn btn-success btn-sm comment-create-button" type="submit" value="댓글 작성">
 </form>
 {% else %}
 <a href="{% url 'accounts:login' %}">[댓글을 작성하려면 로그인하세요]</a>
@@ -106,7 +107,7 @@
       {% if request.user == comment.user %}
       <form action="{% url  'movies:comments_delete' movie.pk comment.pk %}" method="POST" style="display: inline;">
         {% csrf_token %}
-        <input class="btn btn-danger btn-sm" type="submit" value="DELETE">
+        <input class="btn btn-danger btn-sm comment-delete-button" type="submit" value="DELETE">
       </form>
       {% endif %}
     </div>

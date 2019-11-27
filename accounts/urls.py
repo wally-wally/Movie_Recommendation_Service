@@ -12,4 +12,7 @@ urlpatterns = [
     path('<int:user_pk>/follow/', views.follow, name='follow'),
     path('private/<int:user_pk>/', views.private, name='private'),
     path('change_password/', views.change_password, name='change_password'),
+    path('delete/', views.delete, name='delete'),
+    path('update/', views.update, name='update'),
+    path('test/', views.test, name='test'),
 ]

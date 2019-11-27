@@ -1,33 +1,40 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   {% if user.is_authenticated %}
-  <a class="navbar-brand" href="{% url 'accounts:private' user.id %}">Hello, {{ user.username }}</a>
+    <span><img src="https://avatars1.githubusercontent.com/u/58015746?s=400&u=c7a1dc4b8bc29d898d430ee16e572ed34c0cb6d1&v=4" alt="team_logo" width="25px" height="25px"></span>
+    &nbsp; Hello, 
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false" style="font-family: 'Sunflower';">
+            {{ user.username }}
+          </a>
+          <div class="dropdown-menu menu-b" aria-labelledby="navbarDropdown" style="font-family: 'Sunflower';">
+            <a class="dropdown-item" href="{% url 'accounts:private' user.id %}">내프로필</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{% url 'accounts:update' %}">정보수정</a> <!-- {# url 'accounts:update' #} -->
+            <a class="dropdown-item" href="{% url 'accounts:change_password' %}">비번변경</a> <!-- {# url 'accounts:change_password' #} -->
+            <a class="dropdown-item" href="{% url 'accounts:logout' %}">로그아웃</a>
+            <div class="dropdown-divider"></div>
+            <form action="{% url 'accounts:delete' %}" method="POST" style="display: inline;" onclick="return confirm('정말로 회원을 탈퇴하시겠습니까?')">
+              {% csrf_token %} <!-- {# url 'accounts:delete' #} -->
+              <input type="submit" value="회원탈퇴" class="dropdown-item">
+            </form>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link menu-c" href="{% url 'movies:index' %}">영화 정보</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link menu-c" href="{% url 'accounts:index' %}">유저 목록</a>
+        </li>
+      </ul>
+    </div>
   {% else %}
-  <a class="navbar-brand" href="{% url 'accounts:login' %}">Hello, {{ user.username }}</a>
+    <span><img src="https://avatars1.githubusercontent.com/u/58015746?s=400&u=c7a1dc4b8bc29d898d430ee16e572ed34c0cb6d1&v=4" alt="team_logo" width="25px" height="25px"> 영화 추천 서비스</span>
   {% endif %}
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
-    aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'movies:index' %}">영화정보</a>
-      </li>
-      {% if request.user.is_authenticated %}
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'accounts:index' %}">유저목록</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'accounts:logout' %}">로그아웃</a>
-      </li>
-      {% else %}
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'accounts:signup' %}">회원가입</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'accounts:login' %}">로그인</a>
-      </li>
-      {% endif %}
-    </ul>
-  </div>
 </nav>

@@ -4,15 +4,6 @@
     {{ movie.name }} 관련 영상
   </a>
 </p>
-
-<div class="row" id="movie-thumbnails">
-</div>
-
-
-<div class="card-group" id="thumbnails">
-</div>
-
-
 <div class="collapse" id="movie-videos">
   <div class="card card-body" id="movieList">
   </div>
@@ -25,6 +16,7 @@
 <!-- <button class="btn btn-info"id="youtube-button">영상 보기</button> -->
 <hr>
 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script type="text/javascript" src="{% static 'movies/js/config.js' %}"></script>
 <script>
 
@@ -41,7 +33,8 @@
   //document.querySelector('#movieList').append(testTag)
 
 
-  window.onload = function() {
+
+  window.onload = function () {
     axios.get(API_URL, {
       params: {
         key: API_KEY,
@@ -52,36 +45,62 @@
     })
     .then(response => {
       const videos = response.data.items
-      for (let i = 0; i < videos.length - 1; i++) {
-        const flexThumbnailTag = document.createElement('div')
-        flexThumbnailTag.setAttribute('class', 'col-sm-6')
-        flexThumbnailTag.className += ' col-md-4'
+      console.log(videos)
+      console.log(movieName.innerText)
+      for (let i = 0; i < videos.length - 1; i++) { // 유튜브 검색 결과 네 개만 출력
+
+        // 1. 썸네일 추가
         const divThumbnailTag = document.createElement('div')
-        divThumbnailTag.setAttribute('class', 'card')
-
-
+        divThumbnailTag.setAttribute('class', 'video-thumbnail')
         const videoThumbnailTag = document.createElement('img')
         videoThumbnailTag.id = videos[i].etag
-        videoThumbnailTag.class = 'card-img-top'
         videoThumbnailTag.src = videos[i].snippet.thumbnails.high.url
-        videoThumbnailTag.style.height = '220px'
+        videoThumbnailTag.setAttribute('data-toggle', 'modal')
+        videoThumbnailTag.setAttribute('data-target', `#movieNm-${i}`)
         divThumbnailTag.append(videoThumbnailTag)
-        const videoTitleTag = document.createElement('div')
-        videoTitleTag.class = "card-body"
-        videoTitleTag.innerText = videos[i].snippet.title
-        divThumbnailTag.append(videoTitleTag)
-        flexThumbnailTag.append(divThumbnailTag)
-        document.querySelector('#thumbnails').append(flexThumbnailTag)
+
+        // 2. 영상 제목 추가
+        const videoDescriptionTag = document.createElement('div')
+        videoDescriptionTag.class = "media-body"
+        videoDescriptionTag.innerText = videos[i].snippet.title
+        divThumbnailTag.append(videoDescriptionTag)
+
+        // 3. 선택한 youtube 영상 modal로 pop-mode 적용
+        const modalTag = document.createElement('div')
+        const selectVideoId = videos[i].id.videoId
+
+        modalTag.innerHTML = `
+        <div class="modal fade bd-example-modal-lg" id="movieNm-${i}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                ${videos[i].snippet.title}
+              </div>
+              <div class="modal-title">
+                <div class="embed-responsive embed-responsive-16by9">
+                  <iframe id="player" src="http://www.youtube.com/embed/${selectVideoId}" allowfullscreen="allowfullscreen" frameborder="0" class="embed-responsive-item"></iframe>
+                </div>
+              </div>
+              <hr>
+              <div class="modal-body">
+                ${videos[i].snippet.description}
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="pauseVideo" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        `
+        divThumbnailTag.append(modalTag)
+
+        document.querySelector('#movieList').append(divThumbnailTag)
       }
     })
     .catch(err => {
       console.log(err)
     })
   }
-
-
-
-
 
   //const closeVideo = document.querySelector('#pauseVideo')
   //closeVideo.addEventListener('click', function() {
