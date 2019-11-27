@@ -5,7 +5,7 @@
       <div class="card">
         <img src="https://image.tmdb.org/t/p/original{{ info.poster_url }}" class="card-img-top" alt="{{ info.name }} 포스터" style="width: 100%; height: auto;">
         <div class="card-body" style="font-family: 'Gothic A1', sans-serif;">
-          <h5 class="card-title">{{ info.name }}</h5>
+          <h4 class="card-title"><b>{{ info.name }}</b></h4>
           <p class="card-text">Director : {{ info.director }}</p>
           <a class="btn btn-outline-info" href="{% url 'movies:detail' info.pk %}">Go to Detail</a>
         </div>
