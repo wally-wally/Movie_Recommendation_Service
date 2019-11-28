@@ -10,4 +10,4 @@ DEBUG = False
 #     import mimetypes
 #     mimetypes.add_type("application/javascript", ".js", True)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['triple-k.prgypar4mi.ap-northeast-2.elasticbeanstalk.com']
