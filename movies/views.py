@@ -50,6 +50,7 @@ def comments_create(request, movie_pk):
             comment.movie_id = movie_pk
             comment.user = request.user
             comment.save()
+            return redirect('movies:detail', movie_pk)
         else:
             return redirect('movies:index')
     return HttpResponse('No movie information', status=404)
