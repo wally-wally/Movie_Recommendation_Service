@@ -10,6 +10,7 @@ from django.http import JsonResponse, HttpResponseBadRequest
 # Create your views here.
 def index(request):
     movies = Movie.objects.all()
+    movie_name_list = [movie.name for movie in movies]
     if request.user.is_authenticated:
         recommend_movie = request.user.like_movies.all().last()
         if recommend_movie == None:
@@ -42,7 +43,7 @@ def index(request):
                     check_var += 1
                 if check_var == 3:
                     break
-        context = {'movies': movies, 'recommend_movie': recommend_movie, 'genreinfo': genreinfo, 'recommend_info': recommend_info,}
+        context = {'movies': movies, 'recommend_movie': recommend_movie, 'genreinfo': genreinfo, 'recommend_info': recommend_info, 'movie_name_list': movie_name_list,}
     else:
         context = {'movies': movies,}
     return render(request, 'movies/index.html', context)

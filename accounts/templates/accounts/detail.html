@@ -1,5 +1,6 @@
 {% extends 'movies/base.html' %}
 {% block content %}
+<br>
 <h1 class="text-center" style="font-family: 'Do Hyeon'; color: #B7E8FF; text-shadow: 0 0 12px black;">'{{ auth_user }}'님의 정보 상세보기</h1>
 <br>
 
@@ -30,18 +31,18 @@
 <br>
 
 <hr>
-<h3 style="font-family: 'Jua'; color: #B7E8FF; text-shadow: 0 0 12px black;">팔로워 정보</h3>
+<h3 style="font-family: 'Jua'; color: #B7E8FF; text-shadow: 0 0 12px black; display: inline;">팔로워 정보</h3>
 {% if auth_user != request.user %}
   {% if request.user in auth_user.followers.all %}
-    <button class="btn btn-info btn-lg follow-button" style="font-family: 'Gothic A1', sans-serif;" data-id="{{ auth_user.id }}">Unfollow</button>
+    <button class="btn btn-warning follow-button" style="font-family: 'Gothic A1', sans-serif; font-weight: bold;" data-id="{{ auth_user.id }}">Unfollow</button>
   {% else %}
-    <button class="btn btn-primary btn-lg follow-button" style="font-family: 'Gothic A1', sans-serif;" data-id="{{ auth_user.id }}">Follow</button>
+    <button class="btn btn-warning follow-button" style="font-family: 'Gothic A1', sans-serif; font-weight: bold;" data-id="{{ auth_user.id }}">Follow</button>
   {% endif %}
 {% endif %}
 <br>
 <br>
 
-<div class="alert alert-info text-center" role="alert" style="font-size: 30px; font-family: 'Jua', sans-serif;">
+<div class="alert alert-secondary text-center" role="alert" style="font-size: 30px; font-family: 'Jua', sans-serif;">
   {% with followings=auth_user.followings.all followers=auth_user.followers.all %}
   팔로잉 : <b>{{ followings|length }}</b> / 팔로워 : <b id="follower-count-{{ auth_user.pk }}">{{ followers|length }}</b>
   {% endwith %}

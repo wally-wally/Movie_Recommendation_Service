@@ -5,8 +5,8 @@
 <link rel="stylesheet" href="{% static 'accounts/css/private.css' %}">
 <link rel="stylesheet" type="text/CSS" href="style.css" />
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-
-<h1 class="text-center" style="font-family: 'Do Hyeon';">나의 정보 상세보기</h1>
+<br>
+<h1 class="text-center" style="font-family: 'Do Hyeon'; color: white; text-shadow: 0 0 12px black;">나의 정보 상세보기</h1>
 <br>
 <hr>
 
@@ -25,7 +25,7 @@
 			</div>
 		</div>
 		<div class="right_col">
-			<h2 class="name">{{ user_profile.username }}</h2>
+			<h2 class="name"><b>{{ user_profile.username }}</b></h2>
       <h3 class="location">{{ user_profile.email }}</h3>
 			<ul class="contact_information">
 				<li class="website">{{ user_profile.first_name }}</li>
