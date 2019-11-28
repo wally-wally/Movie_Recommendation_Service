@@ -1,4 +1,5 @@
-<h3 data-toggle="collapse" href="#collapseRecommend" aria-expanded="false" aria-controls="collapseRecommend" style="font-family: 'Jua'; color: white; text-shadow: 0 0 12px black;">{{user.username}}님에게 추천드리는 {{ genreinfo }}영화 TOP3!</h3>
+<h3 data-toggle="collapse" href="#collapseRecommend" aria-expanded="false" aria-controls="collapseRecommend" style="font-family: 'Jua'; color: white; text-shadow: 0 0 12px black;">
+{{user.username}}님에게 추천드리는 {{ genreinfo }}영화 TOP3!(Click me!!)</h3>
 <div class="collapse" id="collapseRecommend">
   <div class="card-group">
     {% for info in recommend_info %}

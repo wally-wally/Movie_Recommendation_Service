@@ -11,9 +11,6 @@
 
 <div id="youtube-player"></div>
 
-
-<!-- <span class="badge badge-primary" id="movie-name">{{ movie.name }}</span> 관련 영상 -->
-<!-- <button class="btn btn-info"id="youtube-button">영상 보기</button> -->
 <hr>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -21,18 +18,9 @@
 <script>
 
   const movieName = document.querySelector('.movie-title')
-  // const youtubeButton = document.querySelector('#youtube-button')
   const selectVideo = document.querySelector('.video-thumbnail')
   const API_URL = 'https://www.googleapis.com/youtube/v3/search'
   const API_KEY = config.YOUTUBE_API_KEY
-
-
-  //const testTag = document.createElement('div')
-  //testTag.setAttribute('class', 'test')
-  //testTag.innerText = '123'
-  //document.querySelector('#movieList').append(testTag)
-
-
 
   window.onload = function () {
     axios.get(API_URL, {
@@ -103,14 +91,5 @@
       console.log(err)
     })
   }
-
-  //const closeVideo = document.querySelector('#pauseVideo')
-  //closeVideo.addEventListener('click', function() {
-  // console.log('clicked')
-
-    // document.querySelector('.embed-responsive').remove(closeVideo)
-  //youtubeButton.addEventListener('click', function() {
-  //  youtubeList()
-  //})
 
 </script>

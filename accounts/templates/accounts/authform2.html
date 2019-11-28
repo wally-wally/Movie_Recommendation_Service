@@ -2,15 +2,15 @@
 {% load bootstrap4 %}
 
 {% block content %}
+<br>
 {% if request.resolver_match.url_name == 'change_password' %}
-  <h1 style="font-family: 'Do Hyeon'; color: white;">CHANGE PASSWORD</h1>
+  <h1 style="font-family: 'Do Hyeon'; color: white; text-shadow: 0 0 12px black;">CHANGE PASSWORD</h1>
 {% elif request.resolver_match.url_name == 'update' %}
-  <h1 style="font-family: 'Do Hyeon'; color: white;">UPDATE</h1>
+  <h1 style="font-family: 'Do Hyeon'; color: white; text-shadow: 0 0 12px black;">UPDATE</h1>
 {% endif %}
   <form action="" method="POST">
     {% csrf_token %}
     {% bootstrap_form form %}
     <input class="btn btn-warning" type="submit" value="제출">
   </form>
-  {% comment %} sda {% endcomment %}
 {% endblock %}

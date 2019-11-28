@@ -15,8 +15,6 @@
   <script src="https://kit.fontawesome.com/17820a52a0.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <title>Movie Service</title>
-  {% comment %} <link rel="stylesheet" href="{% static 'movies/css/index_tem.css' %}">
-  <link href="{% sass_src 'movies/css/index_tem_sc.scss' %}" rel="stylesheet" type="text/css"> {% endcomment %}
 </head>
 <body style="background: linear-gradient(to right, #c6426e, #642b73);">
   {% if user.is_authenticated %}
@@ -35,5 +33,13 @@
   <script src={% static 'movies/js/movie_tem.js' %}></script>
   <script src={% static 'movies/js/multicarousel.js' %}></script>
   <script src={% static 'movies/js/test.js' %}></script>
+  <script>
+    const naverLink = document.querySelector('.fa-search')
+    naverLink.addEventListener('click', function() {
+      let baseUrl = 'https://search.naver.com/search.naver?query='
+      let movieKeyWord = $('input#search-keywoard').val()
+      window.open(baseUrl + movieKeyWord)
+    })
+  </script>
 </body>
 </html>
