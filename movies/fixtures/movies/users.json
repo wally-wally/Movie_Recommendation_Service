@@ -1,0 +1,96 @@
+[
+{
+    "model": "accounts.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$150000$73sZkkHZwQZs$rJLBbU4hPLKzVNEjz/j4MfdyJyTeZq6Y5jx32MBpf1Q=",
+        "last_login": "2019-11-27T09:53:08.913Z",
+        "is_superuser": true,
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2019-11-27T09:48:44.918Z",
+        "sex": "",
+        "age": null,
+        "groups": [],
+        "user_permissions": [],
+        "followers": []
+    }
+},
+{
+    "model": "accounts.user",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$150000$vh7mHxGuDLam$7E8q6ip6DB+bMY/YL/kHV+ft+hdaAAAmK1llEx8KLNE=",
+        "last_login": "2019-11-27T09:56:32.672Z",
+        "is_superuser": false,
+        "username": "user1",
+        "first_name": "user1",
+        "last_name": "user1",
+        "email": "kim@kim.kim",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2019-11-27T09:51:41.895Z",
+        "sex": "M",
+        "age": 20,
+        "groups": [],
+        "user_permissions": [],
+        "followers": [
+            1,
+            3,
+            4
+        ]
+    }
+},
+{
+    "model": "accounts.user",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$150000$XFWfr7B77BKk$Iz4GXj9U/reYExcMJ+OxoIvyA2dkNkYbby+wEBrc4b0=",
+        "last_login": "2019-11-27T09:57:21.879Z",
+        "is_superuser": false,
+        "username": "user2",
+        "first_name": "user2",
+        "last_name": "user2",
+        "email": "kim@kim.kim",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2019-11-27T09:52:15.015Z",
+        "sex": "W",
+        "age": 10,
+        "groups": [],
+        "user_permissions": [],
+        "followers": [
+            2,
+            4
+        ]
+    }
+},
+{
+    "model": "accounts.user",
+    "pk": 4,
+    "fields": {
+        "password": "pbkdf2_sha256$150000$h55HhQyA5cKJ$ykvUe+gRl/MnGPhNK6pjMLMCiRfKkyoTefGvsLL9S+M=",
+        "last_login": "2019-11-27T09:57:58.209Z",
+        "is_superuser": false,
+        "username": "user3",
+        "first_name": "user3",
+        "last_name": "user3",
+        "email": "kim@abc.abc",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2019-11-27T09:52:42.294Z",
+        "sex": "M",
+        "age": 30,
+        "groups": [],
+        "user_permissions": [],
+        "followers": [
+            2,
+            3
+        ]
+    }
+}
+]
