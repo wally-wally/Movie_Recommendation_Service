@@ -23,9 +23,9 @@
       <div class="data">
         <div class="content">
           <span class="author">{{ movie.director }}</span>
-          <h2 class="title">{{ movie.name }}</h2>
+          <h2 class="title" style="font-family: 'Jua';">{{ movie.name }}</h2>
           <p class="text">Like count : {{ movie.like_users.all|length }}</p>
-          <a href="{% url 'movies:detail' movie.pk %}">Go to Detail</a>
+          <h4 style="font-family: 'Do Hyeon'; text-shadow: 0 0 16px black;"><a href="{% url 'movies:detail' movie.pk %}" style="color: yellow;">Go to Detail</a></h4>
         </div>
       </div>
     </div>
