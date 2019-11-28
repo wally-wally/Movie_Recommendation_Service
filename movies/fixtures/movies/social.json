@@ -12,5 +12,19 @@
             1
         ]
     }
+},
+{
+    "model": "socialaccount.socialapp",
+    "pk": 2,
+    "fields": {
+        "provider": "naver",
+        "name": "\uc2ec\uaddc\ud604",
+        "client_id": "KGDlVnjtvk7VkQ9azKxw",
+        "secret": "vrof9ROHgq",
+        "key": "",
+        "sites": [
+            1
+        ]
+    }
 }
 ]
