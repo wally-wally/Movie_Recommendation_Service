@@ -3,16 +3,13 @@
 
 {% block content %}
 {% if request.resolver_match.url_name == 'change_password' %}
-  <h1>CHANGE PASSWORD</h1>
+  <h1 style="font-family: 'Do Hyeon'; color: white;">CHANGE PASSWORD</h1>
 {% elif request.resolver_match.url_name == 'update' %}
-  <h1>UPDATE</h1>
+  <h1 style="font-family: 'Do Hyeon'; color: white;">UPDATE</h1>
 {% endif %}
-<form action="" method="POST">
-  {% csrf_token %}
-  {% bootstrap_form form %}
-  <input type="submit" value="제출">
-</form>
-{% if request.resolver_match.url_name == 'login' %}
-  
-{% endif %}
+  <form action="" method="POST">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <input class="btn btn-warning" type="submit" value="제출">
+  </form>
 {% endblock %}
