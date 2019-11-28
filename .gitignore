@@ -258,7 +258,7 @@ yarn-error.log
 
 # End of https://www.gitignore.io/api/vuejs
 
-movies/static/movies/js/config.js
+# movies/static/movies/js/config.js
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
