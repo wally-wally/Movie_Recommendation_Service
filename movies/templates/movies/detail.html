@@ -105,6 +105,7 @@
         {% endif %}
         <p class="card-text">댓글 : {{ comment.content }}</p>
         {% if request.user == comment.user %}
+        <a class="btn btn-warning btn-sm" href="{% url 'movies:comments_update' movie.pk comment.pk %}" style="display: inline;">수정</a>
         <form action="{% url  'movies:comments_delete' movie.pk comment.pk %}" method="POST" style="display: inline; font-family: 'Gothic A1', sans-serif;">
           {% csrf_token %}
           <input class="btn btn-danger btn-sm comment-delete-button" type="submit" value="DELETE">

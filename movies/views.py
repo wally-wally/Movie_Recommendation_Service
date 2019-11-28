@@ -71,6 +71,24 @@ def comments_create(request, movie_pk):
             return redirect('movies:index')
     return HttpResponse('No movie information', status=404)
 
+@login_required
+def comments_update(request, movie_pk, comment_pk):
+    comment = get_object_or_404(Comment, pk=comment_pk)
+    movie = get_object_or_404(Movie, pk=movie_pk)
+    if request.user == comment.user:
+        comment_form = CommentForm(request.POST, instance=comment)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.movie_id = movie.pk
+            comment.user = request.user
+            comment.save()
+            return redirect('movies:detail', movie_pk)
+        else:
+            comment_form = CommentForm(instance=comment)
+    else:
+        return redirect('movies:index')
+    context = {'comment_form': comment_form, 'comment': comment,}
+    return render(request, 'movies/comment_update.html', context)
 
 @require_POST
 def comments_delete(request, movie_pk, comment_pk):

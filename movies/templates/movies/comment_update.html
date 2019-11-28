@@ -1,0 +1,11 @@
+{% extends 'movies/base.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+<h1 style="font-family: 'Do Hyeon'; color: white; text-shadow: 0 0 12px black;">평점 수정</h1>
+<form action="" method="POST">
+  {% csrf_token %}
+  {% bootstrap_form comment_form %}
+  <input class="btn btn-warning" type="submit" value="수정">
+</form>
+{% endblock  %}
