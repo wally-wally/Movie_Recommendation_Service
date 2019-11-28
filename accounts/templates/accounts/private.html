@@ -1,20 +1,40 @@
 {% extends 'movies/base.html' %}
+{% load static %}
 {% block content %}
+
+<link rel="stylesheet" href="{% static 'accounts/css/private.css' %}">
+<link rel="stylesheet" type="text/CSS" href="style.css" />
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
 <h1 class="text-center" style="font-family: 'Do Hyeon';">나의 정보 상세보기</h1>
 <br>
 <hr>
 
-<h3 style="font-family: 'Jua';">아이디 : {{ user_profile.username }}</h3>
-<h3 style="font-family: 'Jua';">성 : {{ user_profile.first_name }}</h3>
-<h3 style="font-family: 'Jua';">이름 : {{ user_profile.last_name }}</h3>
-{% if user_profile.sex == 'M' %}
-<h3 style="font-family: 'Jua';">성별 : ♂️</h3>
-{% else %}
-<h3 style="font-family: 'Jua';">성별 : ♀️</h3>
-{% endif %}
-<h3 style="font-family: 'Jua';">나이 : {{ user_profile.age }} </h3>
-<h3 style="font-family: 'Jua';">이메일 주소 : {{ user_profile.email }} </h3>
-<br>
+	<div class="portfoliocard">
+		<div class="coverphoto"></div>
+		<div class="profile_picture">
+    </div>
+		<div class="left_col">
+			<div class="followers">
+				<div class="follow_count">{{ user_profile.followers.all|length }}</div>
+				Followers
+			</div>
+			<div class="following">
+				<div class="follow_count">{{ user_profile.followings.all|length }}</div>
+				Following
+			</div>
+		</div>
+		<div class="right_col">
+			<h2 class="name">{{ user_profile.username }}</h2>
+      <h3 class="location">{{ user_profile.email }}</h3>
+			<ul class="contact_information">
+				<li class="website">{{ user_profile.first_name }}</li>
+				<li class="website">{{ user_profile.last_name }}</a></li>
+				<li class="website">{{ user_profile.sex }}</li>
+				<li class="website">{{ user_profile.age }}</li>
+			</ul>
+		</div>
+		</div>
 
 <a class="btn btn-outline-success" href="{% url 'accounts:change_password' %}">비밀번호 변경</a>
 {% endblock  %}

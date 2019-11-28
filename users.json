@@ -1,0 +1,44 @@
+[
+{
+  "model": "accounts.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$150000$tLnmEPKsIGub$SN0XWuxW4bLp0t6vGkaAzrs50GUcJTAtEr1V4vSfAlQ=",
+    "last_login": "2019-11-27T08:53:43.967Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2019-11-27T08:45:21.957Z",
+    "sex": "",
+    "age": null,
+    "groups": [],
+    "user_permissions": [],
+    "followers": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 2,
+  "fields": {
+    "password": "!O7PMAHw9h0fWKwzo2293B6mZKUSiZiqMbkt9pOYt",
+    "last_login": "2019-11-27T08:53:37.773Z",
+    "is_superuser": false,
+    "username": "\uae40\uae30\uc740",
+    "first_name": "",
+    "last_name": "",
+    "email": "rlarldmsrns@naver.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-11-27T08:53:37.722Z",
+    "sex": "",
+    "age": null,
+    "groups": [],
+    "user_permissions": [],
+    "followers": []
+  }
+}
+]
