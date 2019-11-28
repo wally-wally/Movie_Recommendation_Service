@@ -27,7 +27,6 @@ def index(request):
                 if check_var == 3:
                     break
         else:
-            embed()
             genreinfo = recommend_movie.genre_id.first()
             recommend_info = []
             check_var = 0
